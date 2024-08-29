@@ -1,13 +1,17 @@
-import { Fragment } from "react/jsx-runtime";
-import { Header } from "@/components/Header";
+// Components
+import { Fragment } from "react/jsx-runtime"
+import { Header } from "@/components/Header"
+import { Hero } from "@/components/Hero"
+import { Layout } from "@/components/Layout"
 
 export function App() {
   return (
     <Fragment>
       <Header />
-      <div className="flex h-screen items-center justify-center">
-        <h1>Celestial Architect</h1>
-      </div>
+      
+      <Layout>
+        <Hero />
+      </Layout>
     </Fragment>
-)
+  )
 }
