@@ -46,6 +46,16 @@
   }
 }
 
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #4169e1;
+  border-radius: 10px;
+}
+
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
