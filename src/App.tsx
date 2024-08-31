@@ -1,4 +1,5 @@
 // Components
+import { CharacterSelector } from "@/components/app/CharacterSelector"
 import { Fragment } from "react/jsx-runtime"
 import { Header } from "@/components/Header"
 import { Hero } from "@/components/Hero"
@@ -11,6 +12,7 @@ export function App() {
       
       <Layout>
         <Hero />
+        <CharacterSelector />
       </Layout>
     </Fragment>
   )
