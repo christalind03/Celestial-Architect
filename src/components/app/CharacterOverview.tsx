@@ -8,7 +8,10 @@ import { useMemo } from "react"
 export function CharacterOverview() {
   const { config } = useConfig()
   const characterConfigs = useMemo(
-    () => Object.values(config).sort((a, b) => a.name.localeCompare(b.name)),
+    () =>
+      Object.values(config).sort((a, b) =>
+        a.attributes.name.localeCompare(b.attributes.name)
+      ),
     [config]
   )
 
@@ -18,7 +21,7 @@ export function CharacterOverview() {
         return (
           <CharacterConfig
             key={characterConfig.id}
-            attributes={characterConfig}
+            characterConfig={characterConfig}
           />
         )
       })}

@@ -6,13 +6,14 @@ import { Separator } from "@/components/ui/Separator"
 import type { Character } from "@/types/Character"
 
 type Props = {
-  attributes: Character
+  id: number
+  attributes: Character["attributes"]
 }
 
-export function CharacterDetails({ attributes }: Props) {
+export function CharacterDetails({ id, attributes }: Props) {
   return (
     <div className="flex gap-3 items-center">
-      <Image className="size-12" src={`/assets/avatars/${attributes.id}.png`} />
+      <Image className="size-12" src={`/assets/avatars/${id}.png`} />
       <div className="flex flex-col gap-1 items-start">
         <label className="font-bold text-pretty">{attributes.name}</label>
         <div className="flex gap-1 items-center">

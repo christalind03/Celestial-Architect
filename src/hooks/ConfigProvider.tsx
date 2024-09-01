@@ -37,11 +37,20 @@ function reducerFn(state: Config, action: ConfigDispatch, storageKey: string) {
 
   switch (action.type) {
     case "addCharacter": {
-      const { characterAttributes } = retrievePayload(action)
+      const { id, ...attributes } = retrievePayload(action)
 
-      // The values of the Config type will be changed later.
-      // This is just placeholder information to ensure the useReducer hook is working.
-      stateCopy[characterAttributes.id] = characterAttributes
+      stateCopy[id] = {
+        id,
+        attributes: {
+          tag: attributes.tag,
+          name: attributes.name,
+          path: attributes.path,
+          element: attributes.element,
+          rarity: attributes.rarity,
+        },
+        cavernRelics: {},
+        planarOrnaments: {},
+      }
       return saveConfig(stateCopy, storageKey)
     }
 

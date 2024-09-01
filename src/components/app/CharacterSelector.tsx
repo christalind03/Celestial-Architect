@@ -47,20 +47,18 @@ export function CharacterSelector() {
                     key={characterAttributes.id}
                     className="flex gap-3 items-center justify-between"
                     onSelect={() =>
-                      configDispatch(
-                        isSelected
-                          ? {
-                              type: "removeCharacter",
-                              payload: { id: characterAttributes.id },
-                            }
-                          : {
-                              type: "addCharacter",
-                              payload: { characterAttributes },
-                            }
-                      )
+                      isSelected
+                        ? configDispatch({
+                            type: "removeCharacter",
+                            payload: { id: characterAttributes.id },
+                          })
+                        : configDispatch({
+                            type: "addCharacter",
+                            payload: { ...characterAttributes },
+                          })
                     }
                   >
-                    <div className="flex gap-3 items-center justify-between">
+                    <div className="flex gap-3 items-center">
                       <Image
                         className="size-8"
                         src={`/assets/avatars/${characterAttributes.id}.png`}
@@ -79,7 +77,7 @@ export function CharacterSelector() {
       </PopoverContent>
 
       <PopoverTrigger asChild>
-        <Button className="w-72" type="button" variant="outline">
+        <Button className="w-72" variant="outline">
           Select Characters
         </Button>
       </PopoverTrigger>

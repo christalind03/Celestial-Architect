@@ -1,0 +1,247 @@
+{
+  "1": {
+    "id": 1,
+    "type": "Cavern Relic",
+    "name": "Band of Sizzling Thunder",
+    "baseEffect": "Increases Lightning DMG by 10%.",
+    "completeEffect": "When the wearer uses their Skill, increases the wearer's ATK by 20% for 1 turn(s)."
+  },
+  "2": {
+    "id": 2,
+    "type": "Cavern Relic",
+    "name": "Champion of Streetwise Boxing",
+    "baseEffect": "Increases Physical DMG by 10%.",
+    "completeEffect": "After the wearer attacks or is hit, their ATK increases by 5% for the rest of the battle. This effect can stack up to 5 time(s)."
+  },
+  "3": {
+    "id": 3,
+    "type": "Cavern Relic",
+    "name": "Eagle of Twilight Line",
+    "baseEffect": "Increases Wind DMG by 10%.",
+    "completeEffect": "After the wearer uses their Ultimate, their action is Advanced Forward by 25%."
+  },
+  "4": {
+    "id": 4,
+    "type": "Cavern Relic",
+    "name": "Firesmith of Lava-Forging",
+    "baseEffect": "Increases Fire DMG by 10%.",
+    "completeEffect": "Increases DMG by the wearer's Skill by 12%. After unleashing Ultimate, increases the wearer's Fire DMG by 12% for the next attack."
+  },
+  "5": {
+    "id": 5,
+    "type": "Cavern Relic",
+    "name": "Genius of Brilliant Stars",
+    "baseEffect": "Increases Quantum DMG by 10%.",
+    "completeEffect": "When the wearer deals DMG to the target enemy, ignores 10% DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores 10% DEF."
+  },
+  "6": {
+    "id": 6,
+    "type": "Cavern Relic",
+    "name": "Guard of Wuthering Snow",
+    "baseEffect": "Reduces DMG taken by 8%.",
+    "completeEffect": "At the beginning of the turn, if the wearer's HP is equal to or less than 50%, restores HP equal to 8% of their Max HP and regenerates 5 Energy."
+  },
+  "7": {
+    "id": 7,
+    "type": "Cavern Relic",
+    "name": "Hunter of Glacial Forest",
+    "baseEffect": "Increases Ice DMG by 10%.",
+    "completeEffect": "After the wearer uses their Ultimate, their CRIT DMG increases by 25% for 2 turn(s)."
+  },
+  "8": {
+    "id": 8,
+    "type": "Cavern Relic",
+    "name": "Knight of Purity Palace",
+    "baseEffect": "Increases DEF by 15%.",
+    "completeEffect": "Increases the max DMG that can be absorbed by the Shield created by the wearer by 20%."
+  },
+  "9": {
+    "id": 9,
+    "type": "Cavern Relic",
+    "name": "Musketeer of Wild Wheat",
+    "baseEffect": "Increases ATK by 12%.",
+    "completeEffect": "The wearer's SPD increases by 6% and DMG dealt by Basic ATK increases by 10%."
+  },
+  "10": {
+    "id": 10,
+    "type": "Cavern Relic",
+    "name": "Passerby of Wandering Cloud",
+    "baseEffect": "Increases Outgoing Healing by 10%.",
+    "completeEffect": "At the start of the battle, immediately regenerates 1 Skill Point."
+  },
+  "11": {
+    "id": 11,
+    "type": "Cavern Relic",
+    "name": "Thief of Shooting Meteor",
+    "baseEffect": "Increases Break Effect by 16%.",
+    "completeEffect": "Increases the wearer's Break Effect by 16%. After the wearer inflicts Weakness Break on an enemy, regenerates 3 Energy."
+  },
+  "12": {
+    "id": 12,
+    "type": "Cavern Relic",
+    "name": "Wastelander of Banditry Desert",
+    "baseEffect": "Increases Imaginary DMG by 10%.",
+    "completeEffect": "When attacking debuffed enemies, the wearer's CRIT Rate increases by 10%, and their CRIT DMG increases by 20% against Imprisoned enemies."
+  },
+  "13": {
+    "id": 13,
+    "type": "Planar Ornament",
+    "name": "Belobog of the Architects",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's DEF by 15%. When the wearer's Effect Hit Rate is 50% or higher, the wearer gains an extra 15% DEF."
+  },
+  "14": {
+    "id": 14,
+    "type": "Planar Ornament",
+    "name": "Celestial Differentiator",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's CRIT DMG by 16%. When the wearer's current CRIT DMG reaches 120% or higher, after entering battle, the wearer's CRIT Rate increases by 60% until the end of their first attack."
+  },
+  "15": {
+    "id": 15,
+    "type": "Planar Ornament",
+    "name": "Fleet of the Ageless",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's Max HP by 12%. When the wearer's SPD reaches 120 or higher, all allies' ATK increases by 8%."
+  },
+  "16": {
+    "id": 16,
+    "type": "Planar Ornament",
+    "name": "Inert Salsotto",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by 15%."
+  },
+  "17": {
+    "id": 17,
+    "type": "Planar Ornament",
+    "name": "Pan-Cosmic Commercial Enterprise",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's Effect Hit Rate by 10%. Meanwhile, the wearer's ATK increases by an amount that is equal to 25% of the current Effect Hit Rate, up to a maximum of 25%."
+  },
+  "18": {
+    "id": 18,
+    "type": "Planar Ornament",
+    "name": "Space Sealing Station",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%."
+  },
+  "19": {
+    "id": 19,
+    "type": "Planar Ornament",
+    "name": "Sprightly Vonwacq",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's Energy Regeneration Rate by 5%. When the wearer's SPD reaches 120 or higher, the wearer's action is Advanced Forward by 40% immediately upon entering battle."
+  },
+  "20": {
+    "id": 20,
+    "type": "Cavern Relic",
+    "name": "Longevous Disciple",
+    "baseEffect": "Increases Max HP by 12%.",
+    "completeEffect": "When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by 8% for 2 turn(s) and up to 2 stacks."
+  },
+  "21": {
+    "id": 21,
+    "type": "Cavern Relic",
+    "name": "Messenger Traversing Hackerspace",
+    "baseEffect": "Increases SPD by 6%.",
+    "completeEffect": "When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for 1 turn(s). This effect cannot be stacked."
+  },
+  "22": {
+    "id": 22,
+    "type": "Planar Ornament",
+    "name": "Broken Keel",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's Effect RES by 10%. When the wearer's Effect RES is at 30% or higher, all allies' CRIT DMG increases by 10%."
+  },
+  "23": {
+    "id": 23,
+    "type": "Planar Ornament",
+    "name": "Rutilant Arena",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 70% or higher, DMG dealt by Basic ATK and Skill increases by 20%."
+  },
+  "24": {
+    "id": 24,
+    "type": "Cavern Relic",
+    "name": "Prisoner in Deep Confinement",
+    "baseEffect": "Increases ATK by 12%.",
+    "completeEffect": "For every DoT the enemy target is afflicted with, the wearer will ignore 6% of its DEF when dealing DMG to it. This effect is valid for a max of 3 DoTs."
+  },
+  "25": {
+    "id": 25,
+    "type": "Cavern Relic",
+    "name": "The Ashblazing Grand Duke",
+    "baseEffect": "Increases the DMG dealt by follow-up attack by 20%.",
+    "completeEffect": "When the wearer uses follow-up attacks, increases the wearer's ATK by 6% for every time the follow-up attack deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a follow-up attack."
+  },
+  "26": {
+    "id": 26,
+    "type": "Planar Ornament",
+    "name": "Firmament Frontline: Glamoth",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's ATK by 12%. When the wearer's SPD is equal to or higher than 135/160, the wearer deals 12%/18% more DMG."
+  },
+  "27": {
+    "id": 27,
+    "type": "Planar Ornament",
+    "name": "Penacony, Land of the Dreams",
+    "baseEffect": "",
+    "completeEffect": "Increases wearer's Energy Regeneration Rate by 5%. Increases DMG by 10% for all other allies that are of the same Type as the wearer."
+  },
+  "28": {
+    "id": 28,
+    "type": "Cavern Relic",
+    "name": "Pioneer Diver of Dead Waters",
+    "baseEffect": "Increases DMG dealt to enemies with debuffs by 12%.",
+    "completeEffect": "Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn(s)."
+  },
+  "29": {
+    "id": 29,
+    "type": "Cavern Relic",
+    "name": "Watchmaker, Master of Dream Machinations",
+    "baseEffect": "Increases Break Effect by 16%.",
+    "completeEffect": "When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by 30% for 2 turn(s). This effect cannot be stacked."
+  },
+  "30": {
+    "id": 30,
+    "type": "Planar Ornament",
+    "name": "Izumo Gensei and Takama Divine Realm",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's ATK by 12%. When entering battle, if at least one other ally follows the same Path as the wearer, then the wearer's CRIT Rate increases by 12%."
+  },
+  "31": {
+    "id": 31,
+    "type": "Planar Ornament",
+    "name": "Sigonia, the Unclaimed Desolation",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's CRIT Rate by 4%. When an enemy target gets defeated, the wearer's CRIT DMG increases by 4%, stacking up to 10 time(s)."
+  },
+  "32": {
+    "id": 32,
+    "type": "Cavern Relic",
+    "name": "Iron Cavalry Against the Scourge",
+    "baseEffect": "Increases Break Effect by 16%.",
+    "completeEffect": "If the wearer's Break Effect is 150% or higher, the Break DMG dealt to the enemy target ignores 10% of their DEF. If the wearer's Break Effect is 250% or higher, the Super Break DMG dealt to the enemy target additionally ignores 15% of their DEF."
+  },
+  "33": {
+    "id": 33,
+    "type": "Cavern Relic",
+    "name": "The Wind-Soaring Valorous",
+    "baseEffect": "Increases ATK by 12%.",
+    "completeEffect": "Increases the wearer's CRIT Rate by 6%. After the wearer uses follow-up attack, increases DMG dealt by Ultimate by 36%, lasting for 1 turn(s)."
+  },
+  "34": {
+    "id": 34,
+    "type": "Planar Ornament",
+    "name": "Duran, Dynasty of Running Wolves",
+    "baseEffect": "",
+    "completeEffect": "When an ally uses follow-up attack, the wearer gains 1 stack of Merit, stacking up to 5 time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
+  },
+  "35": {
+    "id": 35,
+    "type": "Planar Ornament",
+    "name": "Forge of the Kalpagni Lantern",
+    "baseEffect": "",
+    "completeEffect": "Increases the wearer's SPD by 6%. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by 40%, lasting for 1 turn(s)."
+  }
+}
