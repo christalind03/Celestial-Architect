@@ -24,9 +24,15 @@ export function CharacterConfig({ characterConfig }: Props) {
         <label className="font-bold text-sm">Relics</label>
         <div className="flex flex-col gap-5 ml-3">
           <DisplayArtifacts
-            artifactList={characterConfig.cavernRelics}
-            configKey={characterConfig.id}
+            characterArtifacts={{...characterConfig.cavernRelics}}
+            characterKey={characterConfig.id}
             isCavern={true}
+          />
+          
+          <DisplayArtifacts
+            characterArtifacts={{...characterConfig.planarOrnaments}}
+            characterKey={characterConfig.id}
+            isCavern={false}
           />
         </div>
       </div>

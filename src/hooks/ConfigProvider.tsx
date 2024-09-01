@@ -4,12 +4,15 @@ import type { Character } from "@/types/Character"
 // Hooks
 import { createContext, useContext, useReducer } from "react"
 
+// Utility Functions
+import { retrieveArtifacts } from "@/utils/retrieveArtifacts"
+
 type Props = {
   children: React.ReactNode
   storageKey?: string
 }
 
-type Config = {
+export type Config = {
   [id: string]: Character
 }
 
@@ -23,7 +26,11 @@ type ConfigState = {
   configDispatch: React.Dispatch<ConfigDispatch>
 }
 
-type ReducerActions = "addCharacter" | "removeCharacter"
+type ReducerActions =
+  | "addArtifact"
+  | "addCharacter"
+  | "removeArtifact"
+  | "removeCharacter"
 
 const initialState: ConfigState = {
   config: {},
@@ -36,6 +43,29 @@ function reducerFn(state: Config, action: ConfigDispatch, storageKey: string) {
   const stateCopy = { ...state }
 
   switch (action.type) {
+    case "addArtifact": {
+      const {
+        artifactSet: { id, ...artifactDetails },
+        characterKey,
+        isCavern,
+      } = retrievePayload(action)
+
+      const artifactKey = isCavern ? "cavernRelics" : "planarOrnaments"
+
+      stateCopy[characterKey] = {
+        ...stateCopy[characterKey],
+        [artifactKey]: {
+          [id]: {
+            id,
+            ...artifactDetails,
+          },
+          ...stateCopy[characterKey][artifactKey],
+        },
+      }
+
+      return saveConfig(stateCopy, storageKey)
+    }
+
     case "addCharacter": {
       const { id, ...attributes } = retrievePayload(action)
 
@@ -51,6 +81,14 @@ function reducerFn(state: Config, action: ConfigDispatch, storageKey: string) {
         cavernRelics: {},
         planarOrnaments: {},
       }
+
+      return saveConfig(stateCopy, storageKey)
+    }
+
+    case "removeArtifact": {
+      const { id, characterKey, isCavern } = retrievePayload(action)
+
+      delete retrieveArtifacts(stateCopy, characterKey, isCavern)[id]
       return saveConfig(stateCopy, storageKey)
     }
 

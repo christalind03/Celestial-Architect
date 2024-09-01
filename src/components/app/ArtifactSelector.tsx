@@ -23,12 +23,16 @@ import artifacts from "@/data/artifacts.json"
 import { useConfig } from "@/hooks/ConfigProvider"
 import { useMemo } from "react"
 
+// Utility Functions
+import { retrieveArtifacts } from "@/utils/retrieveArtifacts"
+
 type Props = {
-  configKey: number
+  characterKey: number
   isCavern: boolean
 }
 
-export function ArtifactSelector({ configKey, isCavern }: Props) {
+export function ArtifactSelector({ characterKey, isCavern }: Props) {
+  const { config, configDispatch } = useConfig()
   const artifactType = isCavern ? "Cavern Relic" : "Planar Ornament"
   const artifactList = useMemo(
     () =>
@@ -47,10 +51,34 @@ export function ArtifactSelector({ configKey, isCavern }: Props) {
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {artifactList.map((artifactSet) => {
+                const isSelected =
+                  retrieveArtifacts(config, characterKey, isCavern)[
+                    artifactSet.id
+                  ] !== undefined
+
                 return (
                   <CommandItem
                     key={artifactSet.id}
                     className="flex gap-3 items-center justify-between"
+                    onSelect={() =>
+                      isSelected
+                        ? configDispatch({
+                          type: "removeArtifact",
+                          payload: {
+                            id: artifactSet.id,
+                            characterKey,
+                            isCavern,
+                          }
+                        })
+                        : configDispatch({
+                          type: "addArtifact",
+                          payload: {
+                            artifactSet,
+                            characterKey,
+                            isCavern,
+                          }
+                        })
+                    }
                   >
                     <div className="flex gap-3 items-center">
                       <Image
@@ -60,6 +88,8 @@ export function ArtifactSelector({ configKey, isCavern }: Props) {
 
                       <label className="text-xs">{artifactSet.name}</label>
                     </div>
+
+                    {isSelected && <CheckIcon className="size-5" />}
                   </CommandItem>
                 )
               })}
