@@ -23,7 +23,12 @@ import weapons from "@/data/weapons.json"
 import { useConfig } from "@/hooks/ConfigProvider"
 import { useMemo } from "react"
 
-export function WeaponSelector() {
+type Props = {
+  characterKey: number
+}
+
+export function WeaponSelector({ characterKey }: Props) {
+  const { config, configDispatch } = useConfig()
   const weaponList = useMemo(
     () => Object.values(weapons).sort((a, b) => a.name.localeCompare(b.name)),
     [weapons]
@@ -38,10 +43,30 @@ export function WeaponSelector() {
             <CommandEmpty>No results round.</CommandEmpty>
             <CommandGroup>
               {weaponList.map((weaponData) => {
+                const isSelected =
+                  config[characterKey].weapon &&
+                  config[characterKey].weapon.id === weaponData.id
+
                 return (
                   <CommandItem
                     key={weaponData.id}
                     className="flex gap-3 items-center justify-between"
+                    onSelect={() =>
+                      isSelected
+                        ? configDispatch({
+                            type: "removeWeapon",
+                            payload: {
+                              id: characterKey,
+                            },
+                          })
+                        : configDispatch({
+                            type: "addWeapon",
+                            payload: {
+                              id: characterKey,
+                              weaponData,
+                            },
+                          })
+                    }
                   >
                     <div className="flex gap-3 items-center">
                       <Image
@@ -51,6 +76,8 @@ export function WeaponSelector() {
 
                       <label className="text-xs">{weaponData.name}</label>
                     </div>
+
+                    {isSelected && <CheckIcon className="size-5" />}
                   </CommandItem>
                 )
               })}

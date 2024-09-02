@@ -13,5 +13,5 @@ export type Character = {
   }
   cavernRelics: { [id: string]: Artifact }
   planarOrnaments: { [id: string]: Artifact }
-  weapon: Weapon | undefined
+  weapon: Weapon | null
 }

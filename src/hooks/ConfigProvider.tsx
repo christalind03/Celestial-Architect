@@ -29,8 +29,10 @@ type ConfigState = {
 type ReducerActions =
   | "addArtifact"
   | "addCharacter"
+  | "addWeapon"
   | "removeArtifact"
   | "removeCharacter"
+  | "removeWeapon"
 
 const initialState: ConfigState = {
   config: {},
@@ -51,16 +53,17 @@ function reducerFn(state: Config, action: ConfigDispatch, storageKey: string) {
       } = retrievePayload(action)
 
       const artifactKey = isCavern ? "cavernRelics" : "planarOrnaments"
+      const updatedArtifacts = {
+        [id]: {
+          id,
+          ...artifactDetails,
+        },
+        ...stateCopy[characterKey][artifactKey],
+      }
 
       stateCopy[characterKey] = {
         ...stateCopy[characterKey],
-        [artifactKey]: {
-          [id]: {
-            id,
-            ...artifactDetails,
-          },
-          ...stateCopy[characterKey][artifactKey],
-        },
+        [artifactKey]: updatedArtifacts,
       }
 
       return saveConfig(stateCopy, storageKey)
@@ -80,9 +83,16 @@ function reducerFn(state: Config, action: ConfigDispatch, storageKey: string) {
         },
         cavernRelics: {},
         planarOrnaments: {},
-        weapon: undefined
+        weapon: null,
       }
 
+      return saveConfig(stateCopy, storageKey)
+    }
+
+    case "addWeapon": {
+      const { id, weaponData } = retrievePayload(action)
+
+      stateCopy[id].weapon = weaponData
       return saveConfig(stateCopy, storageKey)
     }
 
@@ -97,6 +107,13 @@ function reducerFn(state: Config, action: ConfigDispatch, storageKey: string) {
       const { id } = retrievePayload(action)
 
       delete stateCopy[id]
+      return saveConfig(stateCopy, storageKey)
+    }
+
+    case "removeWeapon": {
+      const { id } = retrievePayload(action)
+
+      stateCopy[id].weapon = null
       return saveConfig(stateCopy, storageKey)
     }
 
