@@ -1,68 +1,46 @@
 // Components
+import { CharacterArtifacts } from "@/components/app/CharacterArtifacts"
 import { CharacterDetails } from "@/components/app/CharacterDetails"
-import { DisplayArtifacts } from "@/components/app/DisplayArtifacts"
-import { Image } from "@/components/Image"
+import { CharacterWeapon } from "@/components/app/CharacterWeapon"
 import { Separator } from "@/components/ui/Separator"
 
 // Data Types
 import type { Character } from "@/types/Character"
-import { WeaponSelector } from "./WeaponSelector"
+
+// Hooks
+import { createContext, useContext } from "react"
 
 type Props = {
   characterConfig: Character
 }
 
+const CharacterContext = createContext<Character | undefined>(undefined)
+
 export function CharacterConfig({ characterConfig }: Props) {
   return (
-    <div className="border p-3 rounded-md space-y-3 w-72">
-      <CharacterDetails
-        id={characterConfig.id}
-        attributes={characterConfig.attributes}
-      />
+    <CharacterContext.Provider value={characterConfig}>
+      <div className="border p-3 rounded-md space-y-3 w-72">
+        <CharacterDetails
+          id={characterConfig.id}
+          attributes={characterConfig.attributes}
+        />
 
-      <Separator />
+        <Separator />
 
-      <div className="flex flex-col gap-5">
-        <div className="flex flex-col gap-1">
-          <label className="font-bold">Relics</label>
-          <div className="flex flex-col gap-3 ml-3">
-            <DisplayArtifacts
-              characterArtifacts={{ ...characterConfig.cavernRelics }}
-              characterKey={characterConfig.id}
-              isCavern={true}
-            />
-
-            <DisplayArtifacts
-              characterArtifacts={{ ...characterConfig.planarOrnaments }}
-              characterKey={characterConfig.id}
-              isCavern={false}
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center justify-between">
-            <label className="font-bold">Light Cone</label>
-            <WeaponSelector characterKey={characterConfig.id} />
-          </div>
-
-          {characterConfig.weapon && (
-            <div className="flex gap-3 items-center text-xs">
-              <Image
-                className="size-12"
-                src={`/assets/weapons/${characterConfig.weapon.id}.png`}
-              />
-
-              <div className="flex flex-col gap-1">
-                <label className="font-bold">
-                  {characterConfig.weapon.name}
-                </label>
-                <label className="text-zinc-500">Placeholder</label>
-              </div>
-            </div>
-          )}
+        <div className="flex flex-col gap-5">
+          <CharacterArtifacts />
+          <CharacterWeapon />
         </div>
       </div>
-    </div>
+    </CharacterContext.Provider>
   )
+}
+
+export function useCharacterConfig() {
+  const characterContext = useContext(CharacterContext)
+
+  if (!characterContext)
+    throw new Error("useCharacterConfig must be used within a CharacterContext.Provider component.")
+
+  return characterContext
 }

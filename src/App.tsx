@@ -1,7 +1,7 @@
 // Components
+import { AppConfig } from "@/hooks/AppConfig"
 import { CharacterOverview } from "@/components/app/CharacterOverview"
 import { CharacterSelector } from "@/components/app/CharacterSelector"
-import { ConfigProvider } from "@/hooks/ConfigProvider"
 import { Fragment } from "react/jsx-runtime"
 import { Header } from "@/components/Header"
 import { Hero } from "@/components/Hero"
@@ -14,12 +14,12 @@ export function App() {
       
       <Layout>
         <Hero />
-        <ConfigProvider storageKey="config">
+        <AppConfig storageKey="app-config">
           <div className="flex flex-col gap-3 items-center">
             <CharacterSelector />
             <CharacterOverview />
           </div>
-        </ConfigProvider>
+        </AppConfig>
       </Layout>
     </Fragment>
   )

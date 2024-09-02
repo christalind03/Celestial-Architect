@@ -20,19 +20,21 @@ import {
 import artifacts from "@/data/artifacts.json"
 
 // Hooks
-import { useConfig } from "@/hooks/ConfigProvider"
+import { useAppConfig } from "@/hooks/AppConfig"
+import { useCharacterConfig } from "@/components/app/CharacterConfig"
 import { useMemo } from "react"
 
 // Utility Functions
 import { retrieveArtifacts } from "@/utils/retrieveArtifacts"
 
 type Props = {
-  characterKey: number
   isCavern: boolean
 }
 
-export function ArtifactSelector({ characterKey, isCavern }: Props) {
-  const { config, configDispatch } = useConfig()
+export function ArtifactSelector({ isCavern }: Props) {
+  const { id: characterKey } = useCharacterConfig()
+  const { appConfig, appConfigDispatch } = useAppConfig()
+  
   const artifactType = isCavern ? "Cavern Relic" : "Planar Ornament"
   const artifactList = useMemo(
     () =>
@@ -52,7 +54,7 @@ export function ArtifactSelector({ characterKey, isCavern }: Props) {
             <CommandGroup>
               {artifactList.map((artifactSet) => {
                 const isSelected =
-                  retrieveArtifacts(config, characterKey, isCavern)[
+                  retrieveArtifacts(appConfig, characterKey, isCavern)[
                     artifactSet.id
                   ] !== undefined
 
@@ -62,22 +64,22 @@ export function ArtifactSelector({ characterKey, isCavern }: Props) {
                     className="flex gap-3 items-center justify-between"
                     onSelect={() =>
                       isSelected
-                        ? configDispatch({
-                          type: "removeArtifact",
-                          payload: {
-                            id: artifactSet.id,
-                            characterKey,
-                            isCavern,
-                          }
-                        })
-                        : configDispatch({
-                          type: "addArtifact",
-                          payload: {
-                            artifactSet,
-                            characterKey,
-                            isCavern,
-                          }
-                        })
+                        ? appConfigDispatch({
+                            type: "removeArtifact",
+                            payload: {
+                              id: artifactSet.id,
+                              characterKey,
+                              isCavern,
+                            },
+                          })
+                        : appConfigDispatch({
+                            type: "addArtifact",
+                            payload: {
+                              artifactSet,
+                              characterKey,
+                              isCavern,
+                            },
+                          })
                     }
                   >
                     <div className="flex gap-3 items-center">

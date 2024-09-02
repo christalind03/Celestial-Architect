@@ -2,17 +2,17 @@
 import { CharacterConfig } from "@/components/app/CharacterConfig"
 
 // Hooks
-import { useConfig } from "@/hooks/ConfigProvider"
+import { useAppConfig } from "@/hooks/AppConfig"
 import { useMemo } from "react"
 
 export function CharacterOverview() {
-  const { config } = useConfig()
+  const { appConfig } = useAppConfig()
   const characterConfigs = useMemo(
     () =>
-      Object.values(config).sort((a, b) =>
+      Object.values(appConfig).sort((a, b) =>
         a.attributes.name.localeCompare(b.attributes.name)
       ),
-    [config]
+    [appConfig]
   )
 
   return (

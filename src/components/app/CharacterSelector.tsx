@@ -20,11 +20,11 @@ import {
 import characters from "@/data/characters.json"
 
 // Hooks
-import { useConfig } from "@/hooks/ConfigProvider"
+import { useAppConfig } from "@/hooks/AppConfig"
 import { useMemo } from "react"
 
 export function CharacterSelector() {
-  const { config, configDispatch } = useConfig()
+  const { appConfig, appConfigDispatch } = useAppConfig()
   const characterList = useMemo(
     () =>
       Object.values(characters).sort((a, b) => a.name.localeCompare(b.name)),
@@ -40,7 +40,7 @@ export function CharacterSelector() {
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {characterList.map((characterAttributes) => {
-                const isSelected = config[characterAttributes.id] !== undefined
+                const isSelected = appConfig[characterAttributes.id] !== undefined
 
                 return (
                   <CommandItem
@@ -48,11 +48,11 @@ export function CharacterSelector() {
                     className="flex gap-3 items-center justify-between"
                     onSelect={() =>
                       isSelected
-                        ? configDispatch({
+                        ? appConfigDispatch({
                             type: "removeCharacter",
                             payload: { id: characterAttributes.id },
                           })
-                        : configDispatch({
+                        : appConfigDispatch({
                             type: "addCharacter",
                             payload: { ...characterAttributes },
                           })

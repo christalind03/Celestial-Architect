@@ -20,15 +20,14 @@ import {
 import weapons from "@/data/weapons.json"
 
 // Hooks
-import { useConfig } from "@/hooks/ConfigProvider"
+import { useAppConfig } from "@/hooks/AppConfig"
+import { useCharacterConfig } from "@/components/app/CharacterConfig"
 import { useMemo } from "react"
 
-type Props = {
-  characterKey: number
-}
+export function WeaponSelector() {
+  const { id: characterKey } = useCharacterConfig()
+  const { appConfig, appConfigDispatch } = useAppConfig()
 
-export function WeaponSelector({ characterKey }: Props) {
-  const { config, configDispatch } = useConfig()
   const weaponList = useMemo(
     () => Object.values(weapons).sort((a, b) => a.name.localeCompare(b.name)),
     [weapons]
@@ -44,8 +43,8 @@ export function WeaponSelector({ characterKey }: Props) {
             <CommandGroup>
               {weaponList.map((weaponData) => {
                 const isSelected =
-                  config[characterKey].weapon &&
-                  config[characterKey].weapon.id === weaponData.id
+                  appConfig[characterKey].weapon &&
+                  appConfig[characterKey].weapon.id === weaponData.id
 
                 return (
                   <CommandItem
@@ -53,13 +52,13 @@ export function WeaponSelector({ characterKey }: Props) {
                     className="flex gap-3 items-center justify-between"
                     onSelect={() =>
                       isSelected
-                        ? configDispatch({
+                        ? appConfigDispatch({
                             type: "removeWeapon",
                             payload: {
                               id: characterKey,
                             },
                           })
-                        : configDispatch({
+                        : appConfigDispatch({
                             type: "addWeapon",
                             payload: {
                               id: characterKey,

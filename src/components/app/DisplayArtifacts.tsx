@@ -2,23 +2,20 @@
 import { ArtifactSelector } from "@/components/app/ArtifactSelector"
 import { Image } from "@/components/Image"
 
-// Data Types
-import type { Artifact } from "@/types/Artifact"
-
 // Hooks
+import { useCharacterConfig } from "@/components/app/CharacterConfig"
 import { useMemo } from "react"
 
 type Props = {
-  characterArtifacts: { [id: string]: Artifact }
-  characterKey: number
   isCavern: boolean
 }
 
-export function DisplayArtifacts({
-  characterArtifacts,
-  characterKey,
-  isCavern,
-}: Props) {
+export function DisplayArtifacts({ isCavern }: Props) {
+  const characterConfig = useCharacterConfig()
+  const characterArtifacts = isCavern
+    ? { ...characterConfig.cavernRelics }
+    : { ...characterConfig.planarOrnaments }
+
   const artifactList = useMemo(
     () =>
       Object.values(characterArtifacts).sort((a, b) =>
@@ -34,7 +31,7 @@ export function DisplayArtifacts({
           {isCavern ? "Cavern Relics" : "Planar Ornaments"}
         </label>
 
-        <ArtifactSelector characterKey={characterKey} isCavern={isCavern} />
+        <ArtifactSelector isCavern={isCavern} />
       </div>
 
       {artifactList.map((artifactSet) => {
@@ -47,9 +44,7 @@ export function DisplayArtifacts({
 
             <div className="flex flex-col gap-1">
               <label className="font-bold">{artifactSet.name}</label>
-              <label className="text-zinc-500">
-                {isCavern && artifactList.length === 1 ? "4pc" : "2pc"}
-              </label>
+              <label className="text-zinc-500">Placeholder</label>
             </div>
           </div>
         )

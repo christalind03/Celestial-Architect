@@ -12,18 +12,18 @@ type Props = {
   storageKey?: string
 }
 
-export type Config = {
+export type AppConfig = {
   [id: string]: Character
 }
 
-type ConfigDispatch = {
+type AppConfigDispatch = {
   type: ReducerActions
   payload?: Record<string, any>
 }
 
-type ConfigState = {
-  config: Config
-  configDispatch: React.Dispatch<ConfigDispatch>
+type AppConfigState = {
+  appConfig: AppConfig
+  appConfigDispatch: React.Dispatch<AppConfigDispatch>
 }
 
 type ReducerActions =
@@ -34,14 +34,18 @@ type ReducerActions =
   | "removeCharacter"
   | "removeWeapon"
 
-const initialState: ConfigState = {
-  config: {},
-  configDispatch: () => null,
+const initialState: AppConfigState = {
+  appConfig: {},
+  appConfigDispatch: () => null,
 }
 
-const ConfigContext = createContext<ConfigState>(initialState)
+const AppContext = createContext<AppConfigState>(initialState)
 
-function reducerFn(state: Config, action: ConfigDispatch, storageKey: string) {
+function reducerFn(
+  state: AppConfig,
+  action: AppConfigDispatch,
+  storageKey: string
+) {
   const stateCopy = { ...state }
 
   switch (action.type) {
@@ -122,7 +126,7 @@ function reducerFn(state: Config, action: ConfigDispatch, storageKey: string) {
   }
 }
 
-function retrievePayload(action: ConfigDispatch) {
+function retrievePayload(action: AppConfigDispatch) {
   if (!action.payload)
     throw new Error(
       `A payload must be provided for the action type: ${action.type}.`
@@ -131,30 +135,29 @@ function retrievePayload(action: ConfigDispatch) {
   return action.payload
 }
 
-function saveConfig(state: Config, storageKey: string) {
+function saveConfig(state: AppConfig, storageKey: string) {
   localStorage.setItem(storageKey, JSON.stringify(state))
   return state
 }
 
-export function ConfigProvider({ children, storageKey = "config" }: Props) {
-  const [config, configDispatch] = useReducer(
-    (state: Config, action: ConfigDispatch) =>
-      reducerFn(state, action, storageKey),
-    JSON.parse(localStorage.getItem(storageKey) || "{}") as Config
+export function AppConfig({ children, storageKey = "app-config" }: Props) {
+  const [appConfig, appConfigDispatch] = useReducer(
+    (state: AppConfig, action: AppConfigDispatch) => reducerFn(state, action, storageKey),
+    JSON.parse(localStorage.getItem(storageKey) || "{}") as AppConfig
   )
 
   return (
-    <ConfigContext.Provider value={{ config, configDispatch }}>
+    <AppContext.Provider value={{ appConfig, appConfigDispatch }}>
       {children}
-    </ConfigContext.Provider>
+    </AppContext.Provider>
   )
 }
 
-export function useConfig() {
-  const configContext = useContext(ConfigContext)
+export function useAppConfig() {
+  const configContext = useContext(AppContext)
 
   if (!configContext)
-    throw new Error("useConfig must be used within a ConfigProvider.")
+    throw new Error("useAppConfig must be used within a AppConfig.Provider component.")
 
   return configContext
 }

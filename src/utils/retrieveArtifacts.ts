@@ -1,10 +1,10 @@
-import type { Config } from "@/hooks/ConfigProvider"
+import type { AppConfig } from "@/hooks/AppConfig"
 
 export function retrieveArtifacts(
-  characterConfigs: Config,
+  appConfig: AppConfig,
   characterKey: number,
   isCavern: boolean
 ) {
   const artifactKey = isCavern ? "cavernRelics" : "planarOrnaments"
-  return characterConfigs[characterKey][artifactKey]
+  return appConfig[characterKey][artifactKey]
 }
