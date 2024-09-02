@@ -80,6 +80,7 @@ function reducerFn(state: Config, action: ConfigDispatch, storageKey: string) {
         },
         cavernRelics: {},
         planarOrnaments: {},
+        weapon: undefined
       }
 
       return saveConfig(stateCopy, storageKey)

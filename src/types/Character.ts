@@ -1,5 +1,6 @@
 // Data Types
 import type { Artifact } from "@/types/Artifact"
+import type { Weapon } from "@/types/Weapon"
 
 export type Character = {
   id: number
@@ -12,4 +13,5 @@ export type Character = {
   }
   cavernRelics: { [id: string]: Artifact }
   planarOrnaments: { [id: string]: Artifact }
+  weapon: Weapon | undefined
 }

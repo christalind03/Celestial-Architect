@@ -28,7 +28,7 @@ export function DisplayArtifacts({
   )
 
   return (
-    <div className="flex flex-col gap-3 justify-center">
+    <div className="flex flex-col gap-1 justify-center">
       <div className="flex items-center justify-between">
         <label className="font-bold text-sm">
           {isCavern ? "Cavern Relics" : "Planar Ornaments"}

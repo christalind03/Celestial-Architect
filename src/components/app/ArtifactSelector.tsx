@@ -1,6 +1,6 @@
 // Components
 import { Button } from "@/components/ui/Button"
-import { CheckIcon, PlusIcon } from "@radix-ui/react-icons"
+import { CheckIcon, Pencil1Icon } from "@radix-ui/react-icons"
 import {
   Command,
   CommandEmpty,
@@ -100,7 +100,7 @@ export function ArtifactSelector({ characterKey, isCavern }: Props) {
 
       <PopoverTrigger asChild>
         <Button size="icon" variant="ghost">
-          <PlusIcon className="size-4" />
+          <Pencil1Icon className="size-4" />
         </Button>
       </PopoverTrigger>
     </Popover>
