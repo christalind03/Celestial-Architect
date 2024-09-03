@@ -4,9 +4,6 @@ import type { Character } from "@/types/Character"
 // Hooks
 import { createContext, useContext, useReducer } from "react"
 
-// Utility Functions
-import { retrieveArtifacts } from "@/utils/retrieveArtifacts"
-
 type Props = {
   children: React.ReactNode
   storageKey?: string
@@ -50,74 +47,62 @@ function reducerFn(
 
   switch (action.type) {
     case "addArtifact": {
-      const {
-        artifactSet: { id, ...artifactDetails },
-        characterKey,
-        isCavern,
-      } = retrievePayload(action)
-
+      const { artifactID, characterID, isCavern } = retrievePayload(action)
       const artifactKey = isCavern ? "cavernRelics" : "planarOrnaments"
-      const updatedArtifacts = {
-        [id]: {
-          id,
-          ...artifactDetails,
-        },
-        ...stateCopy[characterKey][artifactKey],
-      }
 
-      stateCopy[characterKey] = {
-        ...stateCopy[characterKey],
-        [artifactKey]: updatedArtifacts,
+      stateCopy[characterID] = {
+        ...stateCopy[characterID],
+        [artifactKey]: [artifactID, ...stateCopy[characterID][artifactKey]],
       }
 
       return saveConfig(stateCopy, storageKey)
     }
 
     case "addCharacter": {
-      const { id, ...attributes } = retrievePayload(action)
+      const { characterID } = retrievePayload(action)
 
-      stateCopy[id] = {
-        id,
-        attributes: {
-          tag: attributes.tag,
-          name: attributes.name,
-          path: attributes.path,
-          element: attributes.element,
-          rarity: attributes.rarity,
-        },
-        cavernRelics: {},
-        planarOrnaments: {},
-        weapon: null,
+      stateCopy[characterID] = {
+        id: characterID,
+        cavernRelics: [],
+        planarOrnaments: [],
+        lightCone: null,
       }
 
       return saveConfig(stateCopy, storageKey)
     }
 
     case "addWeapon": {
-      const { id, weaponData } = retrievePayload(action)
+      const { characterID, weaponID } = retrievePayload(action)
 
-      stateCopy[id].weapon = weaponData
+      stateCopy[characterID].lightCone = weaponID
       return saveConfig(stateCopy, storageKey)
     }
 
     case "removeArtifact": {
-      const { id, characterKey, isCavern } = retrievePayload(action)
+      const { artifactID, characterID, isCavern } = retrievePayload(action)
+      const artifactKey = isCavern ? "cavernRelics" : "planarOrnaments"
 
-      delete retrieveArtifacts(stateCopy, characterKey, isCavern)[id]
+      stateCopy[characterID] = {
+        ...stateCopy[characterID],
+        [artifactKey]: stateCopy[characterID][artifactKey].filter(
+          (a) => a !== artifactID
+        ),
+      }
+
       return saveConfig(stateCopy, storageKey)
     }
 
     case "removeCharacter": {
-      const { id } = retrievePayload(action)
+      const { characterID } = retrievePayload(action)
 
-      delete stateCopy[id]
+      delete stateCopy[characterID]
       return saveConfig(stateCopy, storageKey)
     }
 
     case "removeWeapon": {
-      const { id } = retrievePayload(action)
+      const { characterID } = retrievePayload(action)
 
-      stateCopy[id].weapon = null
+      stateCopy[characterID].lightCone = null
       return saveConfig(stateCopy, storageKey)
     }
 
@@ -142,7 +127,8 @@ function saveConfig(state: AppConfig, storageKey: string) {
 
 export function AppConfig({ children, storageKey = "app-config" }: Props) {
   const [appConfig, appConfigDispatch] = useReducer(
-    (state: AppConfig, action: AppConfigDispatch) => reducerFn(state, action, storageKey),
+    (state: AppConfig, action: AppConfigDispatch) =>
+      reducerFn(state, action, storageKey),
     JSON.parse(localStorage.getItem(storageKey) || "{}") as AppConfig
   )
 
@@ -157,7 +143,9 @@ export function useAppConfig() {
   const configContext = useContext(AppContext)
 
   if (!configContext)
-    throw new Error("useAppConfig must be used within a AppConfig.Provider component.")
+    throw new Error(
+      "useAppConfig must be used within a AppConfig.Provider component."
+    )
 
   return configContext
 }

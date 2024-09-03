@@ -16,32 +16,24 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover"
 
-// Data
-import artifacts from "@/data/artifacts.json"
-
 // Hooks
 import { useAppConfig } from "@/hooks/AppConfig"
 import { useCharacterConfig } from "@/components/app/CharacterConfig"
-import { useMemo } from "react"
 
 // Utility Functions
-import { retrieveArtifacts } from "@/utils/retrieveArtifacts"
+import { initArtifactList } from "@/utils/initArtifactList"
 
 type Props = {
   isCavern: boolean
 }
 
 export function ArtifactSelector({ isCavern }: Props) {
-  const { id: characterKey } = useCharacterConfig()
+  const { id: characterID } = useCharacterConfig()
   const { appConfig, appConfigDispatch } = useAppConfig()
-  
-  const artifactType = isCavern ? "Cavern Relic" : "Planar Ornament"
-  const artifactList = useMemo(
-    () =>
-      Object.values(artifacts)
-        .filter((a) => a.type === artifactType)
-        .sort((a, b) => a.name.localeCompare(b.name)),
-    [artifacts]
+
+  const artifactList = initArtifactList().filter(
+    (artifactSet) =>
+      artifactSet.type === (isCavern ? "Cavern Relic" : "Planar Ornament")
   )
 
   return (
@@ -53,33 +45,23 @@ export function ArtifactSelector({ isCavern }: Props) {
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {artifactList.map((artifactSet) => {
-                const isSelected =
-                  retrieveArtifacts(appConfig, characterKey, isCavern)[
-                    artifactSet.id
-                  ] !== undefined
+                const isSelected = appConfig[characterID][
+                  isCavern ? "cavernRelics" : "planarOrnaments"
+                ].includes(artifactSet.id)
 
                 return (
                   <CommandItem
                     key={artifactSet.id}
                     className="flex gap-3 items-center justify-between"
                     onSelect={() =>
-                      isSelected
-                        ? appConfigDispatch({
-                            type: "removeArtifact",
-                            payload: {
-                              id: artifactSet.id,
-                              characterKey,
-                              isCavern,
-                            },
-                          })
-                        : appConfigDispatch({
-                            type: "addArtifact",
-                            payload: {
-                              artifactSet,
-                              characterKey,
-                              isCavern,
-                            },
-                          })
+                      appConfigDispatch({
+                        type: isSelected ? "removeArtifact" : "addArtifact",
+                        payload: {
+                          artifactID: artifactSet.id,
+                          characterID: characterID,
+                          isCavern,
+                        },
+                      })
                     }
                   >
                     <div className="flex gap-3 items-center">

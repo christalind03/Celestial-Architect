@@ -5,12 +5,17 @@ import { CharacterConfig } from "@/components/app/CharacterConfig"
 import { useAppConfig } from "@/hooks/AppConfig"
 import { useMemo } from "react"
 
+// Utility Functions
+import { retrieveCharacter } from "@/utils/retrieveCharacter"
+
 export function CharacterOverview() {
   const { appConfig } = useAppConfig()
   const characterConfigs = useMemo(
     () =>
-      Object.values(appConfig).sort((a, b) =>
-        a.attributes.name.localeCompare(b.attributes.name)
+      Object.values(appConfig).sort((characterOne, characterTwo) =>
+        retrieveCharacter(characterOne.id).name.localeCompare(
+          retrieveCharacter(characterTwo.id).name
+        )
       ),
     [appConfig]
   )

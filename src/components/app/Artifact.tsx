@@ -9,10 +9,10 @@ import { useState } from "react"
 
 type Props = {
   artifactSet: Artifact
-  isCavern: boolean
 }
 
-export function Artifact({ artifactSet, isCavern }: Props) {
+export function Artifact({ artifactSet }: Props) {
+  const isCavern = artifactSet.type === "Cavern Relic"
   const [toggleDetails, setToggleDetails] = useState<boolean>(false)
 
   return (

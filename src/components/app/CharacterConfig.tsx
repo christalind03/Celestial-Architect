@@ -10,6 +10,9 @@ import type { Character } from "@/types/Character"
 // Hooks
 import { createContext, useContext } from "react"
 
+// Utility Functions
+import { retrieveCharacter } from "@/utils/retrieveCharacter"
+
 type Props = {
   characterConfig: Character
 }
@@ -22,7 +25,7 @@ export function CharacterConfig({ characterConfig }: Props) {
       <div className="border p-3 rounded-md space-y-3 w-72">
         <CharacterDetails
           id={characterConfig.id}
-          attributes={characterConfig.attributes}
+          attributes={retrieveCharacter(characterConfig.id)}
         />
 
         <Separator />
@@ -40,7 +43,9 @@ export function useCharacterConfig() {
   const characterContext = useContext(CharacterContext)
 
   if (!characterContext)
-    throw new Error("useCharacterConfig must be used within a CharacterContext.Provider component.")
+    throw new Error(
+      "useCharacterConfig must be used within a CharacterContext.Provider component."
+    )
 
   return characterContext
 }

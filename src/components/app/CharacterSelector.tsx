@@ -16,20 +16,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover"
 
-// Data
-import characters from "@/data/characters.json"
-
 // Hooks
 import { useAppConfig } from "@/hooks/AppConfig"
-import { useMemo } from "react"
+
+// Utility Functions
+import { initCharacterList } from "@/utils/initCharacterList"
 
 export function CharacterSelector() {
   const { appConfig, appConfigDispatch } = useAppConfig()
-  const characterList = useMemo(
-    () =>
-      Object.values(characters).sort((a, b) => a.name.localeCompare(b.name)),
-    [characters]
-  )
+  const characterList = initCharacterList()
 
   return (
     <Popover>
@@ -40,22 +35,18 @@ export function CharacterSelector() {
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {characterList.map((characterAttributes) => {
-                const isSelected = appConfig[characterAttributes.id] !== undefined
+                const isSelected =
+                  appConfig[characterAttributes.id] !== undefined
 
                 return (
                   <CommandItem
                     key={characterAttributes.id}
                     className="flex gap-3 items-center justify-between"
                     onSelect={() =>
-                      isSelected
-                        ? appConfigDispatch({
-                            type: "removeCharacter",
-                            payload: { id: characterAttributes.id },
-                          })
-                        : appConfigDispatch({
-                            type: "addCharacter",
-                            payload: { ...characterAttributes },
-                          })
+                      appConfigDispatch({
+                        type: isSelected ? "removeCharacter" : "addCharacter",
+                        payload: { characterID: characterAttributes.id },
+                      })
                     }
                   >
                     <div className="flex gap-3 items-center">

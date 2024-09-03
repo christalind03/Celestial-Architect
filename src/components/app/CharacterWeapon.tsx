@@ -8,8 +8,15 @@ import { WeaponSelector } from "@/components/app/WeaponSelector"
 import { useCharacterConfig } from "@/components/app/CharacterConfig"
 import { useState } from "react"
 
+// Utility Functions
+import { retrieveWeapon } from "@/utils/retrieveWeapon"
+
 export function CharacterWeapon() {
   const characterConfig = useCharacterConfig()
+  const characterWeapon = characterConfig.lightCone
+    ? retrieveWeapon(characterConfig.lightCone)
+    : undefined
+
   const [toggleDetails, setToggleDetails] = useState<boolean>(false)
 
   return (
@@ -19,7 +26,7 @@ export function CharacterWeapon() {
         <WeaponSelector />
       </div>
 
-      {characterConfig.weapon ? (
+      {characterWeapon ? (
         <div className="flex flex-col gap-3 text-xs">
           <div
             className="flex gap-3 items-center p-1 rounded-md hover:bg-secondary"
@@ -27,11 +34,11 @@ export function CharacterWeapon() {
           >
             <Image
               className="size-12"
-              src={`/assets/weapons/${characterConfig.weapon.id}.png`}
+              src={`/assets/weapons/${characterWeapon.id}.png`}
             />
 
             <div className="flex flex-col gap-1">
-              <label className="font-bold">{characterConfig.weapon.name}</label>
+              <label className="font-bold">{characterWeapon.name}</label>
               <label className="text-zinc-500">
                 {toggleDetails ? "Hide" : "Show"} Details
               </label>
@@ -55,8 +62,8 @@ export function CharacterWeapon() {
                 })}
               </TabsList>
 
-              {characterConfig.weapon &&
-                characterConfig.weapon.parameters.map(
+              {characterWeapon &&
+                characterWeapon.parameters.map(
                   (parameterSet, parameterIndex) => {
                     return (
                       <TabsContent
@@ -64,7 +71,7 @@ export function CharacterWeapon() {
                         value={parameterIndex.toString()}
                       >
                         <WeaponDescription
-                          baseDescription={characterConfig.weapon!.description}
+                          baseDescription={characterWeapon.description}
                           parameters={parameterSet}
                         />
                       </TabsContent>

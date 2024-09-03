@@ -16,22 +16,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover"
 
-// Data
-import weapons from "@/data/weapons.json"
-
 // Hooks
 import { useAppConfig } from "@/hooks/AppConfig"
 import { useCharacterConfig } from "@/components/app/CharacterConfig"
-import { useMemo } from "react"
+
+// Utility Functions
+import { initWeaponList } from "@/utils/initWeaponList"
 
 export function WeaponSelector() {
-  const { id: characterKey } = useCharacterConfig()
+  const { id: characterID } = useCharacterConfig()
   const { appConfig, appConfigDispatch } = useAppConfig()
-
-  const weaponList = useMemo(
-    () => Object.values(weapons).sort((a, b) => a.name.localeCompare(b.name)),
-    [weapons]
-  )
+  
+  const weaponList = initWeaponList()
 
   return (
     <Popover>
@@ -43,8 +39,7 @@ export function WeaponSelector() {
             <CommandGroup>
               {weaponList.map((weaponData) => {
                 const isSelected =
-                  appConfig[characterKey].weapon &&
-                  appConfig[characterKey].weapon.id === weaponData.id
+                  appConfig[characterID].lightCone === weaponData.id
 
                 return (
                   <CommandItem
@@ -55,14 +50,14 @@ export function WeaponSelector() {
                         ? appConfigDispatch({
                             type: "removeWeapon",
                             payload: {
-                              id: characterKey,
+                              characterID: characterID,
                             },
                           })
                         : appConfigDispatch({
                             type: "addWeapon",
                             payload: {
-                              id: characterKey,
-                              weaponData,
+                              characterID: characterID,
+                              weaponID: weaponData.id,
                             },
                           })
                     }

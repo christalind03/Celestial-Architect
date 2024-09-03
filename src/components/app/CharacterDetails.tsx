@@ -3,11 +3,11 @@ import { Image } from "@/components/Image"
 import { Separator } from "@/components/ui/Separator"
 
 // Data Types
-import type { Character } from "@/types/Character"
+import type { CharacterAttributes } from "@/types/Character"
 
 type Props = {
   id: number
-  attributes: Character["attributes"]
+  attributes: CharacterAttributes
 }
 
 export function CharacterDetails({ id, attributes }: Props) {

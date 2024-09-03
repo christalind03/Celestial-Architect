@@ -6,6 +6,9 @@ import { ArtifactSelector } from "@/components/app/ArtifactSelector"
 import { useCharacterConfig } from "@/components/app/CharacterConfig"
 import { useMemo } from "react"
 
+// Utility Functions
+import { retrieveArtifact } from "@/utils/retrieveArtifact"
+
 type Props = {
   isCavern: boolean
 }
@@ -13,13 +16,15 @@ type Props = {
 export function ArtifactGroup({ isCavern }: Props) {
   const characterConfig = useCharacterConfig()
   const characterArtifacts = isCavern
-    ? { ...characterConfig.cavernRelics }
-    : { ...characterConfig.planarOrnaments }
+    ? [...characterConfig.cavernRelics]
+    : [...characterConfig.planarOrnaments]
 
   const artifactList = useMemo(
     () =>
-      Object.values(characterArtifacts).sort((a, b) =>
-        a.name.localeCompare(b.name)
+      characterArtifacts.sort((artifactOne, artifactTwo) =>
+        retrieveArtifact(artifactOne).name.localeCompare(
+          retrieveArtifact(artifactTwo).name
+        )
       ),
     [characterArtifacts]
   )
@@ -39,9 +44,8 @@ export function ArtifactGroup({ isCavern }: Props) {
           artifactList.map((artifactSet) => {
             return (
               <Artifact
-                key={artifactSet.id}
-                artifactSet={artifactSet}
-                isCavern={isCavern}
+                key={artifactSet}
+                artifactSet={retrieveArtifact(artifactSet)}
               />
             )
           })
