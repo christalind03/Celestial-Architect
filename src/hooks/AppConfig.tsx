@@ -48,11 +48,22 @@ function reducerFn(
   switch (action.type) {
     case "addArtifact": {
       const { artifactID, characterID, isCavern } = retrievePayload(action)
-      const artifactKey = isCavern ? "cavernRelics" : "planarOrnaments"
+      const artifactType = isCavern ? "cavernRelics" : "planarOrnaments"
 
-      stateCopy[characterID] = {
-        ...stateCopy[characterID],
-        [artifactKey]: [artifactID, ...stateCopy[characterID][artifactKey]],
+      if (isCavern) {
+        const artifactList = stateCopy[characterID][artifactType]
+
+        if (artifactList.length < 2) {
+          stateCopy[characterID] = {
+            ...stateCopy[characterID],
+            [artifactType]: [artifactID, ...artifactList],
+          }
+        }
+      } else {
+        stateCopy[characterID] = {
+          ...stateCopy[characterID],
+          [artifactType]: [artifactID],
+        }
       }
 
       return saveConfig(stateCopy, storageKey)
@@ -80,13 +91,12 @@ function reducerFn(
 
     case "removeArtifact": {
       const { artifactID, characterID, isCavern } = retrievePayload(action)
-      const artifactKey = isCavern ? "cavernRelics" : "planarOrnaments"
+      const artifactType = isCavern ? "cavernRelics" : "planarOrnaments"
+      const artifactList = stateCopy[characterID][artifactType]
 
       stateCopy[characterID] = {
         ...stateCopy[characterID],
-        [artifactKey]: stateCopy[characterID][artifactKey].filter(
-          (a) => a !== artifactID
-        ),
+        [artifactType]: artifactList.filter((a) => a !== artifactID),
       }
 
       return saveConfig(stateCopy, storageKey)
@@ -127,8 +137,7 @@ function saveConfig(state: AppConfig, storageKey: string) {
 
 export function AppConfig({ children, storageKey = "app-config" }: Props) {
   const [appConfig, appConfigDispatch] = useReducer(
-    (state: AppConfig, action: AppConfigDispatch) =>
-      reducerFn(state, action, storageKey),
+    (state: AppConfig, action: AppConfigDispatch) => reducerFn(state, action, storageKey),
     JSON.parse(localStorage.getItem(storageKey) || "{}") as AppConfig
   )
 
