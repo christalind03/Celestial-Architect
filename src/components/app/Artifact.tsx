@@ -5,8 +5,7 @@ import { Image } from "@/components/Image"
 import type { Artifact } from "@/types/Artifact"
 
 // Hooks
-import { Fragment, useState } from "react"
-import { Button } from "../ui/Button"
+import { useState } from "react"
 
 type Props = {
   artifactSet: Artifact
@@ -17,11 +16,11 @@ export function Artifact({ artifactSet, isCavern }: Props) {
   const [toggleDetails, setToggleDetails] = useState<boolean>(false)
 
   return (
-    <div
-      className="flex flex-col gap-3 p-2 rounded-md text-xs hover:bg-secondary"
-      onClick={() => setToggleDetails(!toggleDetails)}
-    >
-      <div className="flex gap-3 items-center">
+    <div className="flex flex-col gap-3 text-xs">
+      <div
+        className="flex gap-3 items-center p-2 rounded-md hover:bg-secondary"
+        onClick={() => setToggleDetails(!toggleDetails)}
+      >
         <Image
           className="size-10"
           src={`/assets/artifacts/${artifactSet.id}.png`}
@@ -36,21 +35,19 @@ export function Artifact({ artifactSet, isCavern }: Props) {
       </div>
 
       {toggleDetails && (
-        <Fragment>
-          <div className="flex flex-col gap-3">
-            {artifactSet.baseEffect && (
-              <p className="leading-relaxed">
-                <b>(2)</b> {artifactSet.baseEffect}
-              </p>
-            )}
+        <div className="flex flex-col gap-1">
+          {artifactSet.baseEffect && (
+            <p className="leading-relaxed">
+              <b>(2)</b> {artifactSet.baseEffect}
+            </p>
+          )}
 
-            {artifactSet.completeEffect && (
-              <p className="leading-relaxed">
-                <b>{isCavern ? "(4)" : "(2)"}</b> {artifactSet.completeEffect}
-              </p>
-            )}
-          </div>
-        </Fragment>
+          {artifactSet.completeEffect && (
+            <p className="leading-relaxed">
+              <b>{isCavern ? "(4)" : "(2)"}</b> {artifactSet.completeEffect}
+            </p>
+          )}
+        </div>
       )}
     </div>
   )

@@ -4,5 +4,5 @@ export type Weapon = {
   path: string
   rarity: string
   description: string
-  parameters: number[]
+  parameters: number[][]
 }

@@ -372,7 +372,7 @@
     "name": "Night on the Milky Way",
     "path": "Erudition",
     "rarity": 5,
-    "description": "For every enemy on the field, increases the wearer's ATK by #2[f1]%, up to 5 stacks. When an enemy is inflicted with Weakness Break, the DMG dealt by the wearer increases by #1[i]% for 1 turn.",
+    "description": "For every enemy on the field, increases the wearer's ATK by #2[i]%, up to 5 stacks. When an enemy is inflicted with Weakness Break, the DMG dealt by the wearer increases by #1[i]% for 1 turn.",
     "parameters": [
       [0.3, 0.09],
       [0.35, 0.105],
@@ -564,7 +564,7 @@
     "name": "Shared Feeling",
     "path": "Abundance",
     "rarity": 4,
-    "description": "Increases the wearer's Outgoing Healing by #1[i]%. When using Skill, regenerates #2[f1] Energy for all allies.",
+    "description": "Increases the wearer's Outgoing Healing by #1[i]%. When using Skill, regenerates #2[i] Energy for all allies.",
     "parameters": [
       [0.1, 2],
       [0.125, 2.5],
@@ -726,7 +726,7 @@
     "name": "Today Is Another Peaceful Day",
     "path": "Erudition",
     "rarity": 4,
-    "description": "After entering battle, increases the wearer's DMG based on their Max Energy. Each point of Energy increases DMG by #1[f2]%. A max of #2[i] Energy will be taken into account for this.",
+    "description": "After entering battle, increases the wearer's DMG based on their Max Energy. Each point of Energy increases DMG by #1[i]%. A max of #2[i] Energy will be taken into account for this.",
     "parameters": [
       [0.002, 160],
       [0.0025, 160],
@@ -782,7 +782,7 @@
     "name": "Warmth Shortens Cold Nights",
     "path": "Abundance",
     "rarity": 4,
-    "description": "Increases the wearer's Max HP by #1[i]%. When using Basic ATK or Skill, restores all allies' HP by an amount equal to #2[f1]% of their respective Max HP.",
+    "description": "Increases the wearer's Max HP by #1[i]%. When using Basic ATK or Skill, restores all allies' HP by an amount equal to #2[i]% of their respective Max HP.",
     "parameters": [
       [0.16, 0.02],
       [0.2, 0.025],
@@ -888,7 +888,7 @@
     "name": "Echoes of the Coffin",
     "path": "Abundance",
     "rarity": 5,
-    "description": "Increases the wearer's ATK by #1[i]%. After the wearer uses an attack, for each different enemy target the wearer hits, regenerates #3[f1] Energy. Each attack can regenerate Energy up to #4[i] time(s) this way. After the wearer uses their Ultimate, all allies gain #2[i] SPD for 1 turn.",
+    "description": "Increases the wearer's ATK by #1[i]%. After the wearer uses an attack, for each different enemy target the wearer hits, regenerates #3[i] Energy. Each attack can regenerate Energy up to #4[i] time(s) this way. After the wearer uses their Ultimate, all allies gain #2[i] SPD for 1 turn.",
     "parameters": [
       [0.24, 12, 3, 3],
       [0.28, 14, 3.5, 3],
@@ -916,7 +916,7 @@
     "name": "Patience Is All You Need",
     "path": "Nihility",
     "rarity": 5,
-    "description": "Increases DMG dealt by the wearer by #2[i]%. After every attack launched by wearer, their SPD increases by #3[f1]%, stacking up to #4[i] times.\\nIf the wearer hits an enemy target that is not afflicted by Erode, there is a 100% base chance to inflict Erode to the target. Enemies afflicted with Erode are also considered to be Shocked and will receive Lightning DoT at the start of each turn equal to #1[i]% of the wearer's ATK, lasting for #5[i] turn(s).",
+    "description": "Increases DMG dealt by the wearer by #2[i]%. After every attack launched by wearer, their SPD increases by #3[i]%, stacking up to #4[i] times.\\nIf the wearer hits an enemy target that is not afflicted by Erode, there is a 100% base chance to inflict Erode to the target. Enemies afflicted with Erode are also considered to be Shocked and will receive Lightning DoT at the start of each turn equal to #1[i]% of the wearer's ATK, lasting for #5[i] turn(s).",
     "parameters": [
       [0.6, 0.24, 0.048, 3, 1],
       [0.7, 0.28, 0.056, 3, 1],
@@ -930,7 +930,7 @@
     "name": "Solitary Healing",
     "path": "Nihility",
     "rarity": 5,
-    "description": "Increases the wearer's Break Effect by #1[i]%. When the wearer uses their Ultimate, increases DoT dealt by the wearer by #2[i]%, lasting for #3[i] turn(s). When a target enemy suffering from DoT imposed by the wearer is defeated, regenerates #4[f1] Energy for the wearer.",
+    "description": "Increases the wearer's Break Effect by #1[i]%. When the wearer uses their Ultimate, increases DoT dealt by the wearer by #2[i]%, lasting for #3[i] turn(s). When a target enemy suffering from DoT imposed by the wearer is defeated, regenerates #4[i] Energy for the wearer.",
     "parameters": [
       [0.2, 0.24, 2, 4],
       [0.25, 0.3, 2, 4.5],
@@ -944,7 +944,7 @@
     "name": "Brighter Than the Sun",
     "path": "Destruction",
     "rarity": 5,
-    "description": "Increases the wearer's CRIT Rate by #1[i]%. When the wearer uses their Basic ATK, they will gain 1 stack of Dragon's Call, lasting for #2[i] turns. Each stack of Dragon's Call increases the wearer's ATK by #4[i]% and Energy Regeneration Rate by #5[f1]%. Dragon's Call can be stacked up to #3[i] times.",
+    "description": "Increases the wearer's CRIT Rate by #1[i]%. When the wearer uses their Basic ATK, they will gain 1 stack of Dragon's Call, lasting for #2[i] turns. Each stack of Dragon's Call increases the wearer's ATK by #4[i]% and Energy Regeneration Rate by #5[i]%. Dragon's Call can be stacked up to #3[i] times.",
     "parameters": [
       [0.18, 2, 2, 0.18, 0.06],
       [0.21, 2, 2, 0.21, 0.07],
@@ -958,7 +958,7 @@
     "name": "She Already Shut Her Eyes",
     "path": "Preservation",
     "rarity": 5,
-    "description": "Increases the wearer's Max HP by #1[i]% and Energy Regeneration Rate by #4[i]%. When the wearer's HP is reduced, all allies' DMG dealt increases by #2[f1]%, lasting for #5[i] turn(s).\\nAt the start of every wave, restores HP to all allies by an amount equal to #3[i]% of their respective lost HP.",
+    "description": "Increases the wearer's Max HP by #1[i]% and Energy Regeneration Rate by #4[i]%. When the wearer's HP is reduced, all allies' DMG dealt increases by #2[i]%, lasting for #5[i] turn(s).\\nAt the start of every wave, restores HP to all allies by an amount equal to #3[i]% of their respective lost HP.",
     "parameters": [
       [0.24, 0.09, 0.8, 0.12, 2],
       [0.28, 0.105, 0.85, 0.14, 2],
@@ -972,7 +972,7 @@
     "name": "I Shall Be My Own Sword",
     "path": "Destruction",
     "rarity": 5,
-    "description": "Increases the wearer's CRIT DMG by #1[i]%. When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of #2[i] stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by #3[f1]%. When #2[i] stack(s) are reached, additionally enables that attack to ignore #4[i]% of the enemy's DEF. This effect will be removed after the wearer uses an attack.",
+    "description": "Increases the wearer's CRIT DMG by #1[i]%. When an ally (excluding the wearer) gets attacked or loses HP, the wearer gains 1 stack of Eclipse, up to a max of #2[i] stack(s). Each stack of Eclipse increases the DMG of the wearer's next attack by #3[i]%. When #2[i] stack(s) are reached, additionally enables that attack to ignore #4[i]% of the enemy's DEF. This effect will be removed after the wearer uses an attack.",
     "parameters": [
       [0.2, 3, 0.14, 0.12],
       [0.23, 3, 0.165, 0.14],
@@ -1014,7 +1014,7 @@
     "name": "Night of Fright",
     "path": "Abundance",
     "rarity": 5,
-    "description": "Increases the wearer's Energy Regeneration Rate by #1[i]%. When any ally uses their Ultimate, the wearer restores HP for the ally currently with the lowest HP percentage by an amount equal to #2[i]% of the healed ally's Max HP. When the wearer provides healing for an ally, increases the healed ally's ATK by #3[f1]%. This effect can stack up to #4[i] times and lasts for #5[i] turn(s).",
+    "description": "Increases the wearer's Energy Regeneration Rate by #1[i]%. When any ally uses their Ultimate, the wearer restores HP for the ally currently with the lowest HP percentage by an amount equal to #2[i]% of the healed ally's Max HP. When the wearer provides healing for an ally, increases the healed ally's ATK by #3[i]%. This effect can stack up to #4[i] times and lasts for #5[i] turn(s).",
     "parameters": [
       [0.12, 0.1, 0.024, 5, 2],
       [0.14, 0.11, 0.028, 5, 2],
@@ -1028,7 +1028,7 @@
     "name": "An Instant Before A Gaze",
     "path": "Erudition",
     "rarity": 5,
-    "description": "Increases the wearer's CRIT DMG by #1[i]%. When the wearer uses Ultimate, increases DMG dealt by the wearer's Ultimate based on their Max Energy. Each point of Energy increases DMG dealt by Ultimate by #2[f2]%. A max of #3[i] points of Energy will be taken into account for this.",
+    "description": "Increases the wearer's CRIT DMG by #1[i]%. When the wearer uses Ultimate, increases DMG dealt by the wearer's Ultimate based on their Max Energy. Each point of Energy increases DMG dealt by Ultimate by #2[i]%. A max of #3[i] points of Energy will be taken into account for this.",
     "parameters": [
       [0.36, 0.0036, 180],
       [0.42, 0.0042, 180],
@@ -1042,7 +1042,7 @@
     "name": "Past Self in Mirror",
     "path": "Harmony",
     "rarity": 5,
-    "description": "Increases the wearer's Break Effect by #1[i]%. When the wearer uses their Ultimate, increases all allies' DMG by #2[i]%, lasting for #3[i] turn(s). Should the wearer's Break Effect exceed or equal #4[i]%, 1 Skill Point will be recovered.\\nAt the start of each wave, all allies regenerate #5[f1] Energy immediately. Abilities of the same type cannot stack.",
+    "description": "Increases the wearer's Break Effect by #1[i]%. When the wearer uses their Ultimate, increases all allies' DMG by #2[i]%, lasting for #3[i] turn(s). Should the wearer's Break Effect exceed or equal #4[i]%, 1 Skill Point will be recovered.\\nAt the start of each wave, all allies regenerate #5[i] Energy immediately. Abilities of the same type cannot stack.",
     "parameters": [
       [0.6, 0.24, 3, 1.5, 10],
       [0.7, 0.28, 3, 1.5, 12.5],
@@ -1070,7 +1070,7 @@
     "name": "Destiny's Threads Forewoven",
     "path": "Preservation",
     "rarity": 4,
-    "description": "Increases the wearer's Effect RES by #1[i]%. For every #2[i] of DEF the wearer has, increases the wearer's DMG dealt by #3[f1]%, up to a maximum DMG increase of #4[i]%.",
+    "description": "Increases the wearer's Effect RES by #1[i]%. For every #2[i] of DEF the wearer has, increases the wearer's DMG dealt by #3[i]%, up to a maximum DMG increase of #4[i]%.",
     "parameters": [
       [0.12, 100, 0.008, 0.32],
       [0.14, 100, 0.009, 0.36],
@@ -1162,7 +1162,7 @@
     "name": "What Is Real?",
     "path": "Abundance",
     "rarity": 4,
-    "description": "Increases the wearer's Break Effect by #1[i]%. After using Basic ATK, restores HP for the wearer by an amount equal to #2[f1]% of Max HP plus #3[i].",
+    "description": "Increases the wearer's Break Effect by #1[i]%. After using Basic ATK, restores HP for the wearer by an amount equal to #2[i]% of Max HP plus #3[i].",
     "parameters": [
       [0.24, 0.02, 800],
       [0.3, 0.025, 800],
@@ -1176,7 +1176,7 @@
     "name": "Reforged Remembrance",
     "path": "Nihility",
     "rarity": 5,
-    "description": "Increases the wearer's Effect Hit Rate by #1[i]%. When the wearer deals DMG to an enemy inflicted with Wind Shear, Burn, Shock, or Bleed, each respectively grants 1 stack of Prophet, stacking up to #4[i] time(s). In a single battle, only 1 stack of Prophet can be granted for each type of DoT. Every stack of Prophet increases wearer's ATK by #2[i]% and enables the DoT dealt to ignore #3[f1]% of the target's DEF.",
+    "description": "Increases the wearer's Effect Hit Rate by #1[i]%. When the wearer deals DMG to an enemy inflicted with Wind Shear, Burn, Shock, or Bleed, each respectively grants 1 stack of Prophet, stacking up to #4[i] time(s). In a single battle, only 1 stack of Prophet can be granted for each type of DoT. Every stack of Prophet increases wearer's ATK by #2[i]% and enables the DoT dealt to ignore #3[i]% of the target's DEF.",
     "parameters": [
       [0.4, 0.05, 0.072, 4],
       [0.45, 0.06, 0.079, 4],
@@ -1232,7 +1232,7 @@
     "name": "Inherently Unjust Destiny",
     "path": "Preservation",
     "rarity": 5,
-    "description": "Increases the wearer's DEF by #1[i]%. When the wearer provides a Shield to an ally, the wearer's CRIT DMG increases by #2[i]%, lasting for #3[i] turn(s). When the wearer's follow-up attack hits an enemy target, there is a #4[i]% base chance to increase the DMG taken by the attacked enemy target by #5[f1]%, lasting for #6[i] turn(s).",
+    "description": "Increases the wearer's DEF by #1[i]%. When the wearer provides a Shield to an ally, the wearer's CRIT DMG increases by #2[i]%, lasting for #3[i] turn(s). When the wearer's follow-up attack hits an enemy target, there is a #4[i]% base chance to increase the DMG taken by the attacked enemy target by #5[i]%, lasting for #6[i] turn(s).",
     "parameters": [
       [0.4, 0.4, 2, 1, 0.1, 2],
       [0.46, 0.46, 2, 1.15, 0.115, 2],
@@ -1274,7 +1274,7 @@
     "name": "Flowing Nightglow",
     "path": "Harmony",
     "rarity": 5,
-    "description": "Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by #1[f1]%, stacking up to #2[i] time(s). When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by #4[i]% and increases all allies' DMG dealt by #3[i]%, lasting for #5[i] turn(s).",
+    "description": "Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by #1[i]%, stacking up to #2[i] time(s). When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by #4[i]% and increases all allies' DMG dealt by #3[i]%, lasting for #5[i] turn(s).",
     "parameters": [
       [0.03, 5, 0.24, 0.48, 1],
       [0.035, 5, 0.28, 0.6, 1],
@@ -1316,7 +1316,7 @@
     "name": "Whereabouts Should Dreams Rest",
     "path": "Destruction",
     "rarity": 5,
-    "description": "Increases the wearer's Break Effect by #1[i]%. When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for #4[i] turn(s). Targets afflicted with Routed receive #2[f1]% increased Break DMG from the wearer, and their SPD is lowered by #3[i]%. Effects of the same type cannot be stacked.",
+    "description": "Increases the wearer's Break Effect by #1[i]%. When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for #4[i] turn(s). Targets afflicted with Routed receive #2[i]% increased Break DMG from the wearer, and their SPD is lowered by #3[i]%. Effects of the same type cannot be stacked.",
     "parameters": [
       [0.6, 0.24, 0.2, 2],
       [0.7, 0.28, 0.2, 2],

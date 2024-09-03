@@ -34,10 +34,8 @@ export function ArtifactGroup({ isCavern }: Props) {
         <ArtifactSelector isCavern={isCavern} />
       </div>
 
-      <div className="flex flex-col gap-1">
-        {artifactList.length === 0 ? (
-          <p className="text-center text-xs text-zinc-500">No Relics Equipped.</p>
-        ) : (
+      <div className="flex flex-col gap-3">
+        {artifactList.length !== 0 ? (
           artifactList.map((artifactSet) => {
             return (
               <Artifact
@@ -47,6 +45,10 @@ export function ArtifactGroup({ isCavern }: Props) {
               />
             )
           })
+        ) : (
+          <p className="text-center text-xs text-zinc-500">
+            No Relics Equipped.
+          </p>
         )}
       </div>
     </div>
