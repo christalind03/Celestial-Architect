@@ -19,7 +19,7 @@ import {
 import { RenderError } from "@/components/RenderError"
 
 // Data Types
-import type { CharacterAttributes } from "@/types/Character"
+import type { Character } from "@/types/Character"
 
 // Hooks
 import { useAppConfig } from "@/hooks/AppConfig"
@@ -35,6 +35,17 @@ export function CharacterSelector() {
     queryKey: ["characterList"],
   })
 
+  function handleSelect(
+    characterID: number,
+    characterIndex: number,
+    isSelected: boolean
+  ) {
+    appConfigDispatch({
+      type: isSelected ? "removeCharacter" : "addCharacter",
+      payload: isSelected ? { characterID, characterIndex } : { characterID },
+    })
+  }
+
   return (
     <Popover>
       <PopoverContent className="p-0">
@@ -48,44 +59,34 @@ export function CharacterSelector() {
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
-                {characterList.data.map(
-                  (characterAttributes: CharacterAttributes) => {
-                    const isSelected =
-                      appConfig[characterAttributes.id] !== undefined
+                {characterList.data.map(({ id, name }: Character) => {
+                  const appIndex = appConfig.findIndex(
+                    ({ id: configID }) => configID === id
+                  )
+                  const isSelected = appIndex !== -1
 
-                    return (
-                      <CommandItem
-                        key={characterAttributes.id}
-                        className="flex gap-3 items-center justify-between"
-                        onSelect={() =>
-                          appConfigDispatch({
-                            type: isSelected
-                              ? "removeCharacter"
-                              : "addCharacter",
-                            payload: { characterID: characterAttributes.id },
-                          })
-                        }
-                      >
-                        <div className="flex gap-3 items-center">
-                          <Image
-                            className="size-8"
-                            src={`/assets/avatars/${characterAttributes.id}.png`}
-                          />
-
-                          <label>{characterAttributes.name}</label>
-                        </div>
-
-                        {isSelected && <CheckIcon className="size-5" />}
-                      </CommandItem>
-                    )
-                  }
-                )}
+                  return (
+                    <CommandItem
+                      key={id}
+                      className="flex gap-3 items-center justify-between"
+                      onSelect={() => handleSelect(id, appIndex, isSelected)}
+                    >
+                      <div className="flex gap-3 items-center">
+                        <Image
+                          className="size-8"
+                          src={`/assets/avatars/${id}.png`}
+                        />
+                        <label>{name}</label>
+                      </div>
+                      {isSelected && <CheckIcon className="size-5" />}
+                    </CommandItem>
+                  )
+                })}
               </CommandGroup>
             </CommandList>
           </Command>
         )}
       </PopoverContent>
-
       <PopoverTrigger asChild>
         <Button className="w-72" variant="outline">
           Select Characters

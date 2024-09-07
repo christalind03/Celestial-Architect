@@ -7,7 +7,7 @@ import { WeaponDescription } from "@/components/app/WeaponDescription"
 import { WeaponSelector } from "@/components/app/WeaponSelector"
 
 // Hooks
-import { useCharacterConfig } from "@/components/app/CharacterConfig"
+import { useCharacter } from "@/components/app/CharacterConfig"
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -15,23 +15,24 @@ import { useQuery } from "@tanstack/react-query"
 import { fetchData } from "@/utils/fetchData"
 
 export function CharacterWeapon() {
-  const characterConfig = useCharacterConfig()
+  const { config } = useCharacter()
+
   const weaponInfo = useQuery({
     queryFn: () =>
       fetchData(
-        `http://localhost:3000/api/v1/weapons/${characterConfig.lightCone}`
+        `http://localhost:3000/api/v1/weapons/${config.lightCone}`
       ),
-    queryKey: ["weaponInfo", characterConfig.lightCone],
-    enabled: !!characterConfig.lightCone,
+    queryKey: ["weaponInfo", config.lightCone],
+    enabled: !!config.lightCone,
   })
 
   const weaponExtras = useQuery({
     queryFn: () =>
       fetchData(
-        `http://localhost:3000/api/v1/weapons/${characterConfig.lightCone}/extras`
+        `http://localhost:3000/api/v1/weapons/${config.lightCone}/extras`
       ),
-    queryKey: ["weaponExtras", characterConfig.lightCone],
-    enabled: !!characterConfig.lightCone,
+    queryKey: ["weaponExtras", config.lightCone],
+    enabled: !!config.lightCone,
   })
 
   const [toggleDetails, setToggleDetails] = useState<boolean>(false)
@@ -59,7 +60,6 @@ export function CharacterWeapon() {
               className="size-12"
               src={`/assets/weapons/${weaponInfo.data.id}.png`}
             />
-
             <div className="flex flex-col gap-1">
               <label className="font-bold">{weaponInfo.data.name}</label>
               <label className="text-zinc-500">

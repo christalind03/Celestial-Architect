@@ -23,7 +23,7 @@ import type { Artifact } from "@/types/Artifact"
 
 // Hooks
 import { useAppConfig } from "@/hooks/AppConfig"
-import { useCharacterConfig } from "@/components/app/CharacterConfig"
+import { useCharacter } from "@/components/app/CharacterConfig"
 import { useQuery } from "@tanstack/react-query"
 
 // Utility Functions
@@ -35,9 +35,10 @@ type Props = {
 }
 
 export function ArtifactSelector({ isCavern }: Props) {
-  const { id: characterID } = useCharacterConfig()
-  const { appConfig, appConfigDispatch } = useAppConfig()
+  const { index, config } = useCharacter()
+  const { appConfigDispatch } = useAppConfig()
 
+  const artifactGroup = isCavern ? "cavernRelics" : "planarOrnaments"
   const artifactList = useQuery({
     queryFn: () => fetchData("http://localhost:3000/api/v1/artifacts"),
     queryKey: ["artifactList"],
@@ -52,6 +53,13 @@ export function ArtifactSelector({ isCavern }: Props) {
     }
   }, [artifactList.data])
 
+  function handleSelect(artifactID: number, isSelected: boolean) {
+    appConfigDispatch({
+      type: isSelected ? "removeCharacterArtifact" : "addCharacterArtifact",
+      payload: { artifactID, characterIndex: index, isCavern },
+    })
+  }
+
   return (
     <Popover>
       <PopoverContent align="end" className="p-0">
@@ -65,35 +73,22 @@ export function ArtifactSelector({ isCavern }: Props) {
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
-                {filteredArtifacts.map((artifactSet: Artifact) => {
-                  const isSelected = appConfig[characterID][
-                    isCavern ? "cavernRelics" : "planarOrnaments"
-                  ].includes(artifactSet.id)
+                {filteredArtifacts.map(({ id, name }: Artifact) => {
+                  const isSelected = config[artifactGroup].includes(id)
 
                   return (
                     <CommandItem
-                      key={artifactSet.id}
+                      key={id}
                       className="flex gap-3 items-center justify-between"
-                      onSelect={() =>
-                        appConfigDispatch({
-                          type: isSelected ? "removeArtifact" : "addArtifact",
-                          payload: {
-                            artifactID: artifactSet.id,
-                            characterID: characterID,
-                            isCavern,
-                          },
-                        })
-                      }
+                      onSelect={() => handleSelect(id, isSelected)}
                     >
                       <div className="flex gap-3 items-center">
                         <Image
                           className="size-8"
-                          src={`/assets/artifacts/${artifactSet.id}.png`}
+                          src={`/assets/artifacts/${id}.png`}
                         />
-
-                        <label className="text-xs">{artifactSet.name}</label>
+                        <label className="text-xs">{name}</label>
                       </div>
-
                       {isSelected && <CheckIcon className="size-5" />}
                     </CommandItem>
                   )
@@ -103,7 +98,6 @@ export function ArtifactSelector({ isCavern }: Props) {
           </Command>
         )}
       </PopoverContent>
-
       <PopoverTrigger asChild>
         <Button size="icon" variant="ghost">
           <Pencil1Icon className="size-4" />

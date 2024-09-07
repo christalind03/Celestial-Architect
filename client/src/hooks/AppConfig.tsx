@@ -1,5 +1,5 @@
 // Data Types
-import type { Character } from "@/types/Character"
+import type { CharacterConfig } from "@/types/CharacterConfig"
 
 // Hooks
 import { createContext, useContext, useReducer } from "react"
@@ -9,9 +9,7 @@ type Props = {
   storageKey?: string
 }
 
-export type AppConfig = {
-  [id: string]: Character
-}
+export type AppConfig = CharacterConfig[]
 
 type AppConfigDispatch = {
   type: ReducerActions
@@ -24,100 +22,93 @@ type AppConfigState = {
 }
 
 type ReducerActions =
-  | "addArtifact"
   | "addCharacter"
-  | "addWeapon"
-  | "removeArtifact"
+  | "addCharacterArtifact"
+  | "addCharacterWeapon"
   | "removeCharacter"
-  | "removeWeapon"
+  | "removeCharacterArtifact"
+  | "removeCharacterWeapon"
 
 const initialState: AppConfigState = {
-  appConfig: {},
+  appConfig: [],
   appConfigDispatch: () => null,
 }
 
 const AppContext = createContext<AppConfigState>(initialState)
 
-function reducerFn(
-  state: AppConfig,
-  action: AppConfigDispatch,
-  storageKey: string
-) {
-  const stateCopy = { ...state }
+function reducerFn(storageKey: string) {
+  return (state: AppConfig, action: AppConfigDispatch) => {
+    const stateCopy = [...state]
 
-  switch (action.type) {
-    case "addArtifact": {
-      const { artifactID, characterID, isCavern } = retrievePayload(action)
-      const artifactType = isCavern ? "cavernRelics" : "planarOrnaments"
+    switch (action.type) {
+      case "addCharacter": {
+        const { characterID } = retrievePayload(action)
 
-      if (isCavern) {
-        const artifactList = stateCopy[characterID][artifactType]
+        stateCopy.push({
+          id: characterID,
+          cavernRelics: [],
+          planarOrnaments: [],
+          lightCone: null,
+        })
 
-        if (artifactList.length < 2) {
-          stateCopy[characterID] = {
-            ...stateCopy[characterID],
-            [artifactType]: [artifactID, ...artifactList],
-          }
-        }
-      } else {
-        stateCopy[characterID] = {
-          ...stateCopy[characterID],
-          [artifactType]: [artifactID],
-        }
+        return saveConfig(stateCopy, storageKey)
       }
 
-      return saveConfig(stateCopy, storageKey)
-    }
+      case "addCharacterArtifact": {
+        const { artifactID, characterIndex, isCavern } = retrievePayload(action)
 
-    case "addCharacter": {
-      const { characterID } = retrievePayload(action)
+        const artifactGroup = isCavern ? "cavernRelics" : "planarOrnaments"
+        const artifactList = stateCopy[characterIndex][artifactGroup]
 
-      stateCopy[characterID] = {
-        id: characterID,
-        cavernRelics: [],
-        planarOrnaments: [],
-        lightCone: null,
+        stateCopy[characterIndex][artifactGroup] = isCavern
+          ? artifactList.length < 2 && !artifactList.includes(artifactID)
+            ? [...artifactList, artifactID]
+            : artifactList
+          : [artifactID]
+
+        return saveConfig(stateCopy, storageKey)
       }
 
-      return saveConfig(stateCopy, storageKey)
-    }
+      case "addCharacterWeapon": {
+        const { weaponID, characterIndex } = retrievePayload(action)
 
-    case "addWeapon": {
-      const { characterID, weaponID } = retrievePayload(action)
+        stateCopy[characterIndex].lightCone = weaponID
 
-      stateCopy[characterID].lightCone = weaponID
-      return saveConfig(stateCopy, storageKey)
-    }
-
-    case "removeArtifact": {
-      const { artifactID, characterID, isCavern } = retrievePayload(action)
-      const artifactType = isCavern ? "cavernRelics" : "planarOrnaments"
-      const artifactList = stateCopy[characterID][artifactType]
-
-      stateCopy[characterID] = {
-        ...stateCopy[characterID],
-        [artifactType]: artifactList.filter((a) => a !== artifactID),
+        return saveConfig(stateCopy, storageKey)
       }
 
-      return saveConfig(stateCopy, storageKey)
+      case "removeCharacter": {
+        const { characterIndex } = retrievePayload(action)
+
+        stateCopy.splice(characterIndex, 1)
+
+        return saveConfig(stateCopy, storageKey)
+      }
+
+      case "removeCharacterArtifact": {
+        const { artifactID, characterIndex, isCavern } = retrievePayload(action)
+
+        const artifactGroup = isCavern ? "cavernRelics" : "planarOrnaments"
+        const artifactList = stateCopy[characterIndex][artifactGroup]
+
+        stateCopy[characterIndex][artifactGroup] = artifactList.filter(
+          (artifactSet) => artifactSet !== artifactID
+        )
+
+        return saveConfig(stateCopy, storageKey)
+      }
+
+      case "removeCharacterWeapon": {
+        const { characterIndex } = retrievePayload(action)
+
+        stateCopy[characterIndex].lightCone = null
+
+        return saveConfig(stateCopy, storageKey)
+      }
+
+      default:
+        throw new Error(`${action.type} is not a valid action type.`)
     }
-
-    case "removeCharacter": {
-      const { characterID } = retrievePayload(action)
-
-      delete stateCopy[characterID]
-      return saveConfig(stateCopy, storageKey)
-    }
-
-    case "removeWeapon": {
-      const { characterID } = retrievePayload(action)
-
-      stateCopy[characterID].lightCone = null
-      return saveConfig(stateCopy, storageKey)
-    }
-
-    default:
-      throw new Error(`${action.type} is not a valid action type.`)
   }
 }
 
@@ -137,8 +128,8 @@ function saveConfig(state: AppConfig, storageKey: string) {
 
 export function AppConfig({ children, storageKey = "app-config" }: Props) {
   const [appConfig, appConfigDispatch] = useReducer(
-    (state: AppConfig, action: AppConfigDispatch) => reducerFn(state, action, storageKey),
-    JSON.parse(localStorage.getItem(storageKey) || "{}") as AppConfig
+    reducerFn(storageKey),
+    JSON.parse(localStorage.getItem(storageKey) || "[]") as AppConfig
   )
 
   return (

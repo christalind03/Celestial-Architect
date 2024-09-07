@@ -7,7 +7,7 @@ import { RenderError } from "@/components/RenderError"
 import { Separator } from "@/components/ui/Separator"
 
 // Data Types
-import type { Character } from "@/types/Character"
+import type { CharacterConfig } from "@/types/CharacterConfig"
 
 // Hooks
 import { createContext, useContext } from "react"
@@ -17,29 +17,32 @@ import { useQuery } from "@tanstack/react-query"
 import { fetchData } from "@/utils/fetchData"
 
 type Props = {
-  characterConfig: Character
+  index: number
+  config: CharacterConfig
+}
+
+type Character = {
+  index: number
+  config: CharacterConfig
 }
 
 const CharacterContext = createContext<Character | undefined>(undefined)
 
-export function CharacterConfig({ characterConfig }: Props) {
-  const characterID = characterConfig.id
+export function CharacterConfig({ index, config }: Props) {
   const characterInfo = useQuery({
     queryFn: () =>
-      fetchData(`http://localhost:3000/api/v1/characters/${characterID}`),
-    queryKey: ["characterInfo", characterID],
+      fetchData(`http://localhost:3000/api/v1/characters/${config.id}`),
+    queryKey: ["characterInfo", config.id],
   })
 
   if (characterInfo.isError) return <RenderError error={characterInfo.error} />
   if (characterInfo.isLoading) return <Loading />
 
   return (
-    <CharacterContext.Provider value={characterConfig}>
+    <CharacterContext.Provider value={{ index, config }}>
       <div className="border p-3 rounded-md space-y-3 w-72">
-        <CharacterDetails id={characterID} attributes={characterInfo.data} />
-
+        <CharacterDetails attributes={characterInfo.data} />
         <Separator />
-
         <div className="flex flex-col gap-5">
           <CharacterArtifacts />
           <CharacterWeapon />
@@ -49,12 +52,12 @@ export function CharacterConfig({ characterConfig }: Props) {
   )
 }
 
-export function useCharacterConfig() {
+export function useCharacter() {
   const characterContext = useContext(CharacterContext)
 
   if (!characterContext)
     throw new Error(
-      "useCharacterConfig must be used within a CharacterContext.Provider component."
+      "useCharacter must be used within a CharacterContext.Provider component."
     )
 
   return characterContext

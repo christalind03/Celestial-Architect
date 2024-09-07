@@ -23,20 +23,29 @@ import { Weapon } from "@/types/Weapon"
 
 // Hooks
 import { useAppConfig } from "@/hooks/AppConfig"
-import { useCharacterConfig } from "@/components/app/CharacterConfig"
+import { useCharacter } from "@/components/app/CharacterConfig"
 import { useQuery } from "@tanstack/react-query"
 
 // Utility Functions
 import { fetchData } from "@/utils/fetchData"
 
 export function WeaponSelector() {
-  const { id: characterID } = useCharacterConfig()
-  const { appConfig, appConfigDispatch } = useAppConfig()
+  const { index, config } = useCharacter()
+  const { appConfigDispatch } = useAppConfig()
 
   const weaponList = useQuery({
     queryFn: () => fetchData("http://localhost:3000/api/v1/weapons"),
     queryKey: ["weaponList"],
   })
+
+  function handleSelect(weaponID: number, isSelected: boolean) {
+    appConfigDispatch({
+      type: isSelected ? "removeCharacterWeapon" : "addCharacterWeapon",
+      payload: isSelected
+        ? { characterIndex: index }
+        : { weaponID, characterIndex: index },
+    })
+  }
 
   return (
     <Popover>
@@ -51,40 +60,22 @@ export function WeaponSelector() {
             <CommandList>
               <CommandEmpty>No results round.</CommandEmpty>
               <CommandGroup>
-                {weaponList.data.map((weaponData: Weapon) => {
-                  const isSelected =
-                    appConfig[characterID].lightCone === weaponData.id
+                {weaponList.data.map(({ id, name }: Weapon) => {
+                  const isSelected = config.lightCone === id
 
                   return (
                     <CommandItem
-                      key={weaponData.id}
+                      key={id}
                       className="flex gap-3 items-center justify-between"
-                      onSelect={() =>
-                        isSelected
-                          ? appConfigDispatch({
-                              type: "removeWeapon",
-                              payload: {
-                                characterID: characterID,
-                              },
-                            })
-                          : appConfigDispatch({
-                              type: "addWeapon",
-                              payload: {
-                                characterID: characterID,
-                                weaponID: weaponData.id,
-                              },
-                            })
-                      }
+                      onSelect={() => handleSelect(id, isSelected)}
                     >
                       <div className="flex gap-3 items-center">
                         <Image
                           className="size-8"
-                          src={`/assets/weapons/${weaponData.id}.png`}
+                          src={`/assets/weapons/${id}.png`}
                         />
-
-                        <label className="text-xs">{weaponData.name}</label>
+                        <label className="text-xs">{name}</label>
                       </div>
-
                       {isSelected && <CheckIcon className="size-5" />}
                     </CommandItem>
                   )
@@ -94,7 +85,6 @@ export function WeaponSelector() {
           </Command>
         )}
       </PopoverContent>
-
       <PopoverTrigger asChild>
         <Button size="icon" variant="ghost">
           <Pencil1Icon className="size-4" />

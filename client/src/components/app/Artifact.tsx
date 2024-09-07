@@ -39,7 +39,6 @@ export function Artifact({ artifactID }: Props) {
           className="size-10"
           src={`/assets/artifacts/${artifactInfo.data.id}.png`}
         />
-
         <div className="flex flex-col gap-1">
           <label className="font-bold">{artifactInfo.data.name}</label>
           <label className="text-zinc-500">
@@ -47,7 +46,7 @@ export function Artifact({ artifactID }: Props) {
           </label>
         </div>
       </div>
-
+      
       {toggleDetails && (
         <div className="flex flex-col gap-1">
           {artifactInfo.data.baseEffect && (
