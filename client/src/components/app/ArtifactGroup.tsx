@@ -35,7 +35,7 @@ export function ArtifactGroup({ isCavern }: Props) {
             )
           })
         ) : (
-          <p className="text-center text-xs text-zinc-500">
+          <p className="py-3 text-center text-xs text-zinc-500">
             No Relics Equipped.
           </p>
         )}
