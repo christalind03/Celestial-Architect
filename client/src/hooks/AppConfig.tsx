@@ -28,6 +28,7 @@ type ReducerActions =
   | "removeCharacter"
   | "removeCharacterArtifact"
   | "removeCharacterWeapon"
+  | "updateCharacterNotes"
 
 const initialState: AppConfigState = {
   appConfig: [],
@@ -49,6 +50,7 @@ function reducerFn(storageKey: string) {
           cavernRelics: [],
           planarOrnaments: [],
           lightCone: null,
+          notes: "",
         })
 
         return saveConfig(stateCopy, storageKey)
@@ -102,6 +104,14 @@ function reducerFn(storageKey: string) {
         const { characterIndex } = retrievePayload(action)
 
         stateCopy[characterIndex].lightCone = null
+
+        return saveConfig(stateCopy, storageKey)
+      }
+      
+      case "updateCharacterNotes": {
+        const { characterIndex, characterNotes } = retrievePayload(action)
+        
+        stateCopy[characterIndex].notes = characterNotes
 
         return saveConfig(stateCopy, storageKey)
       }

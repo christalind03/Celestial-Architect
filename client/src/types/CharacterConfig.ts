@@ -3,4 +3,5 @@ export type CharacterConfig = {
   cavernRelics: number[]
   planarOrnaments: number[]
   lightCone: number | null
+  notes: string
 }

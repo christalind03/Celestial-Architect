@@ -4,10 +4,27 @@ import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons"
 import { Textarea } from "@/components/ui/Textarea"
 
 // Hooks
-import { useState } from "react"
+import { useAppConfig } from "@/hooks/AppConfig"
+import { useCharacter } from "@/components/app/CharacterConfig"
+import { useCallback, useState } from "react"
+
+// Utility Functions
+import debounce from "lodash.debounce"
 
 export function CharacterNotes() {
+  const { index, config } = useCharacter()
+  const { appConfigDispatch } = useAppConfig()
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  const debounceNotes = useCallback(
+    debounce((noteString: string) => {
+      appConfigDispatch({
+        type: "updateCharacterNotes",
+        payload: { characterIndex: index, characterNotes: noteString },
+      })
+    }, 1000),
+    [appConfigDispatch]
+  )
 
   return (
     <div className="flex flex-col gap-1">
@@ -25,6 +42,10 @@ export function CharacterNotes() {
       {isOpen && (
         <Textarea
           className="border-none p-0 text-xs focus-visible:ring-0"
+          defaultValue={config.notes}
+          onChange={(event) => {
+            debounceNotes(event.currentTarget.value)
+          }}
           placeholder="Notes..."
         />
       )}
