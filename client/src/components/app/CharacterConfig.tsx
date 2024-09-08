@@ -1,6 +1,7 @@
 // Components
 import { CharacterArtifacts } from "@/components/app/CharacterArtifacts"
 import { CharacterDetails } from "@/components/app/CharacterDetails"
+import { CharacterNotes } from "@/components/app/CharacterNotes"
 import { CharacterWeapon } from "@/components/app/CharacterWeapon"
 import { Loading } from "@/components/Loading"
 import { RenderError } from "@/components/RenderError"
@@ -46,6 +47,7 @@ export function CharacterConfig({ index, config }: Props) {
         <div className="flex flex-col gap-5">
           <CharacterArtifacts />
           <CharacterWeapon />
+          <CharacterNotes />
         </div>
       </div>
     </CharacterContext.Provider>

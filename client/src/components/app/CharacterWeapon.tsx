@@ -104,7 +104,7 @@ export function CharacterWeapon() {
           )}
         </div>
       ) : (
-        <p className="pt-3 pb-5 text-center text-xs text-zinc-500">
+        <p className="py-3 text-center text-xs text-zinc-500">
           No Light Cone Equipped.
         </p>
       )}
