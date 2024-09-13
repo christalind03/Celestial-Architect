@@ -1,15 +1,14 @@
 // Components
 import { Button } from "@/components/ui/Button"
+import { CaretSortIcon, Cross2Icon } from "@radix-ui/react-icons"
 import { Image } from "@/components/Image"
 import { MultiSelect } from "@/components/MultiSelect"
-import { Pencil1Icon } from "@radix-ui/react-icons"
 
 // Data Types
 import type { Artifact } from "@/types/Artifact"
 
 // Hooks
-import { useAppConfig } from "@/hooks/AppConfig"
-import { useCharacter } from "@/components/app/CharacterConfig"
+import { useFilter } from "@/components/app/AppDashboard"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -20,10 +19,8 @@ type Props = {
   isCavern: boolean
 }
 
-export function ArtifactSelector({ isCavern }: Props) {
-  const { index, config } = useCharacter()
-  const { appConfigDispatch } = useAppConfig()
-
+export function ArtifactFilter({ isCavern }: Props) {
+  const { filterOptions, filterOptionsDispatch } = useFilter()
   const allArtifacts = useQuery({
     queryFn: () => fetchData("http://localhost:3000/api/v1/artifacts"),
     queryKey: ["artifactList"],
@@ -50,15 +47,13 @@ export function ArtifactSelector({ isCavern }: Props) {
   }
 
   function isSelected({ id: artifactID }: Artifact) {
-    return config[artifactGroup].includes(artifactID)
+    return filterOptions[artifactGroup].includes(artifactID)
   }
 
   function onSelect(artifactObj: Artifact) {
-    appConfigDispatch({
-      type: isSelected(artifactObj)
-        ? "removeCharacterArtifact"
-        : "addCharacterArtifact",
-      payload: { artifactID: artifactObj.id, characterIndex: index, isCavern },
+    filterOptionsDispatch({
+      type: isSelected(artifactObj) ? "removeArtifact" : "addArtifact",
+      payload: { artifactID: artifactObj.id, isCavern },
     })
   }
 
@@ -68,8 +63,25 @@ export function ArtifactSelector({ isCavern }: Props) {
       isError={allArtifacts.isError}
       isLoading={allArtifacts.isLoading}
       renderButton={
-        <Button size="icon" variant="ghost">
-          <Pencil1Icon className="size-4" />
+        <Button
+          className="flex items-center justify-between w-72"
+          variant="outline"
+        >
+          <label>{filterOptions[artifactGroup].length} Selected</label>
+          {filterOptions[artifactGroup].length === 0 ? (
+            <CaretSortIcon className="size-4" />
+          ) : (
+            <Cross2Icon
+              className="size-4"
+              onClick={(event) => {
+                event.stopPropagation()
+                filterOptionsDispatch({
+                  type: "clearArtifacts",
+                  payload: { isCavern },
+                })
+              }}
+            />
+          )}
         </Button>
       }
       renderGroups={[

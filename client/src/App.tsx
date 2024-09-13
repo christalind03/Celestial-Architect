@@ -1,6 +1,5 @@
 // Components
-import { CharacterOverview } from "@/components/app/CharacterOverview"
-import { CharacterSelector } from "@/components/app/CharacterSelector"
+import { AppDashboard } from "@/components/app/AppDashboard"
 import { Header } from "@/components/Header"
 import { Hero } from "@/components/Hero"
 import { Layout } from "@/components/Layout"
@@ -15,14 +14,11 @@ export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Header />
-      
+
       <Layout>
         <Hero />
         <AppConfig storageKey="app-config">
-          <div className="flex flex-col gap-3 items-center">
-            <CharacterSelector />
-            <CharacterOverview />
-          </div>
+          <AppDashboard />
         </AppConfig>
       </Layout>
     </QueryClientProvider>

@@ -1,22 +1,7 @@
 // Components
 import { Button } from "@/components/ui/Button"
-import { CheckIcon } from "@radix-ui/react-icons"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/Command"
 import { Image } from "@/components/Image"
-import { Loading } from "@/components/Loading"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/Popover"
-import { RenderError } from "@/components/RenderError"
+import { MultiSelect } from "@/components/MultiSelect"
 
 // Data Types
 import type { Character } from "@/types/Character"
@@ -35,11 +20,29 @@ export function CharacterSelector() {
     queryKey: ["characterList"],
   })
 
-  function handleSelect(
-    characterID: number,
-    characterIndex: number,
-    isSelected: boolean
-  ) {
+  function displayImage({ id: characterID }: Character) {
+    return (
+      <Image className="size-8" src={`/assets/avatars/${characterID}.png`} />
+    )
+  }
+
+  function displayLabel({ name: characterName }: Character) {
+    return <label>{characterName}</label>
+  }
+
+  function isSelected({ id: characterID }: Character) {
+    return (
+      appConfig.findIndex(({ id: configID }) => configID === characterID) !== -1
+    )
+  }
+
+  function onSelect({ id: characterID }: Character) {
+    const characterIndex = appConfig.findIndex(
+      ({ id: configID }) => configID === characterID
+    )
+
+    const isSelected = characterIndex !== -1
+
     appConfigDispatch({
       type: isSelected ? "removeCharacter" : "addCharacter",
       payload: isSelected ? { characterID, characterIndex } : { characterID },
@@ -47,51 +50,25 @@ export function CharacterSelector() {
   }
 
   return (
-    <Popover>
-      <PopoverContent className="p-0">
-        {characterList.isError ? (
-          <RenderError error={characterList.error} />
-        ) : characterList.isLoading ? (
-          <Loading className="py-5" />
-        ) : (
-          <Command>
-            <CommandInput placeholder="Search..." />
-            <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup>
-                {characterList.data.map(({ id, name }: Character) => {
-                  const appIndex = appConfig.findIndex(
-                    ({ id: configID }) => configID === id
-                  )
-                  const isSelected = appIndex !== -1
-
-                  return (
-                    <CommandItem
-                      key={id}
-                      className="flex gap-3 items-center justify-between"
-                      onSelect={() => handleSelect(id, appIndex, isSelected)}
-                    >
-                      <div className="flex gap-3 items-center">
-                        <Image
-                          className="size-8"
-                          src={`/assets/avatars/${id}.png`}
-                        />
-                        <label>{name}</label>
-                      </div>
-                      {isSelected && <CheckIcon className="size-5" />}
-                    </CommandItem>
-                  )
-                })}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        )}
-      </PopoverContent>
-      <PopoverTrigger asChild>
-        <Button className="w-72" variant="outline">
+    <MultiSelect<Character>
+      error={characterList.error}
+      isError={characterList.isError}
+      isLoading={characterList.isLoading}
+      renderButton={
+        <Button className="w-60" variant="outline">
           Select Characters
         </Button>
-      </PopoverTrigger>
-    </Popover>
+      }
+      renderGroups={[
+        {
+          heading: "Characters",
+          iterator: characterList.data,
+          displayImage,
+          displayLabel,
+          isSelected,
+          onSelect,
+        }, 
+      ]}
+    />
   )
 }
