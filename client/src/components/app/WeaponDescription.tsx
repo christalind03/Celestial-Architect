@@ -1,11 +1,12 @@
 import { Fragment } from "react/jsx-runtime"
 
 type Props = {
+  title: string
   baseDescription: string
   parameters: number[]
 }
 
-export function WeaponDescription({ baseDescription, parameters }: Props) {
+export function WeaponDescription({ title, baseDescription, parameters }: Props) {
   function generateDescription() {
     const paramPattern = /#(\d+)\[i\](%?)/g
     const descriptionElements: (JSX.Element | string)[] = []
@@ -66,5 +67,10 @@ export function WeaponDescription({ baseDescription, parameters }: Props) {
     )
   }
 
-  return <p className="leading-relaxed">{generateDescription()}</p>
+  return (
+    <div className="flex flex-col gap-2.5">
+      <label className="font-bold mt-1 text-center">{title}</label>
+      <p className="leading-relaxed">{generateDescription()}</p>
+    </div>
+  )
 }

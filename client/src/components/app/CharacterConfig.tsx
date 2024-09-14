@@ -53,14 +53,14 @@ export function CharacterConfig({ index, config }: Props) {
           <CharacterDetails attributes={characterInfo.data} />
           {config.isFavorite && (
             <div className="absolute bg-white flex items-center justify-center rounded-full size-4 -translate-x-0.5">
-              <StarFilledIcon className="size-3.5 text-yellow-500" />
+              <StarFilledIcon className="size-3.5 text-amber-500" />
             </div>
           )}
         </div>
         <Separator />
         <div className="flex flex-col gap-5">
           <CharacterArtifacts />
-          <CharacterWeapon />
+          <CharacterWeapon characterPath={characterInfo.data.path} />
           <CharacterNotes />
         </div>
       </div>
