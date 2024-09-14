@@ -28,6 +28,8 @@ type ReducerActions =
   | "removeCharacter"
   | "removeCharacterArtifact"
   | "removeCharacterWeapon"
+  | "updateCharacterArchive"
+  | "updateCharacterFavorite"
   | "updateCharacterNotes"
 
 const initialState: AppConfigState = {
@@ -47,13 +49,15 @@ function reducerFn(storageKey: string) {
 
         stateCopy.push({
           id: characterID,
+          isArchived: false,
+          isFavorite: false,
           cavernRelics: [],
           planarOrnaments: [],
           lightCone: null,
           notes: "",
         })
 
-        return saveConfig(stateCopy, storageKey)
+        break
       }
 
       case "addCharacterArtifact": {
@@ -68,23 +72,21 @@ function reducerFn(storageKey: string) {
             : artifactList
           : [artifactID]
 
-        return saveConfig(stateCopy, storageKey)
+        break
       }
 
       case "addCharacterWeapon": {
         const { weaponID, characterIndex } = retrievePayload(action)
 
         stateCopy[characterIndex].lightCone = weaponID
-
-        return saveConfig(stateCopy, storageKey)
+        break
       }
 
       case "removeCharacter": {
         const { characterIndex } = retrievePayload(action)
 
         stateCopy.splice(characterIndex, 1)
-
-        return saveConfig(stateCopy, storageKey)
+        break
       }
 
       case "removeCharacterArtifact": {
@@ -97,28 +99,44 @@ function reducerFn(storageKey: string) {
           (artifactSet) => artifactSet !== artifactID
         )
 
-        return saveConfig(stateCopy, storageKey)
+        break
       }
 
       case "removeCharacterWeapon": {
         const { characterIndex } = retrievePayload(action)
 
         stateCopy[characterIndex].lightCone = null
-
-        return saveConfig(stateCopy, storageKey)
+        break
       }
-      
+
+      case "updateCharacterArchive": {
+        const { characterIndex, archiveState } = retrievePayload(action)
+
+        stateCopy[characterIndex].isArchived = archiveState
+        stateCopy[characterIndex].isFavorite = false
+        break
+      }
+
+      case "updateCharacterFavorite": {
+        const { characterIndex, favoriteState } = retrievePayload(action)
+
+        stateCopy[characterIndex].isArchived = false
+        stateCopy[characterIndex].isFavorite = favoriteState
+        break
+      }
+
       case "updateCharacterNotes": {
         const { characterIndex, characterNotes } = retrievePayload(action)
-        
-        stateCopy[characterIndex].notes = characterNotes
 
-        return saveConfig(stateCopy, storageKey)
+        stateCopy[characterIndex].notes = characterNotes
+        break
       }
 
       default:
         throw new Error(`${action.type} is not a valid action type.`)
     }
+
+    return saveConfig(stateCopy, storageKey)
   }
 }
 

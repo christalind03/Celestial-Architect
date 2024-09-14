@@ -1,9 +1,21 @@
 // Components
 import { AppFilters } from "@/components/app/AppFilters"
+import {
+  ArchiveIcon,
+  MixerHorizontalIcon,
+  StarIcon,
+  TrashIcon,
+} from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/Button"
 import { CharacterConfig } from "@/components/app/CharacterConfig"
 import { CharacterSelector } from "@/components/app/CharacterSelector"
-import { MixerHorizontalIcon } from "@radix-ui/react-icons"
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/ContextMenu"
 
 // Hooks
 import { createContext, useContext, useMemo, useReducer, useState } from "react"
@@ -72,7 +84,7 @@ function reducerFn(state: FilterOptions, action: FilterOptionsDispatch) {
     case "clearArtifacts": {
       const { isCavern } = retrievePayload(action)
       const artifactGroup = isCavern ? "cavernRelics" : "planarOrnaments"
-      
+
       stateCopy[artifactGroup] = []
 
       return stateCopy
@@ -120,7 +132,7 @@ function retrievePayload(action: FilterOptionsDispatch) {
 }
 
 export function AppDashboard() {
-  const { appConfig } = useAppConfig()
+  const { appConfig, appConfigDispatch } = useAppConfig()
   const [filterOptions, filterOptionsDispatch] = useReducer(
     reducerFn,
     defaultFilterOptions
@@ -130,15 +142,28 @@ export function AppDashboard() {
   const [showFilter, setShowFilter] = useState<boolean>()
 
   const filteredCharacters = useMemo(() => {
-    const characterList = Object.values(appConfig)
+    const characterList = Object.values(appConfig).sort(
+      (characterOne, characterTwo) => {
+        // Prioritize by the "isFavorite" property.
+        if (characterOne.isFavorite !== characterTwo.isFavorite) {
+          return characterOne.isFavorite ? -1 : 1
+        }
+        
+        // Prioritize by the "isArchived" property.
+        if (characterOne.isArchived !== characterTwo.isArchived) {
+          return characterOne.isArchived ? 1 : -1
+        }
 
-    const filterKeys = ["cavernRelics", "planarOrnaments", "lightCones"]
-    const isFilterEmpty = filterKeys.every(
-      (filterKey) =>
-        filterOptions[filterKey as keyof typeof filterOptions].length === 0
+        // If they are the same, maintain the original order.
+        return 0;
+      }
     )
 
-    if (isFilterEmpty) {
+    if (
+      filterOptions.cavernRelics.length === 0 ||
+      filterOptions.planarOrnaments.length === 0 ||
+      filterOptions.lightCones.length === 0
+    ) {
       setFilterEnabled(false)
       return characterList
     }
@@ -185,8 +210,63 @@ export function AppDashboard() {
       )}
       <div className="gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredCharacters.length !== 0 ? (
-          filteredCharacters.map((config, index) => {
-            return <CharacterConfig key={config.id} {...{ index, config }} />
+          filteredCharacters.map((config) => {
+            const characterIndex = appConfig.findIndex(
+              (characterConfig) => characterConfig === config
+            )
+
+            return (
+              <ContextMenu key={config.id}>
+                <ContextMenuContent>
+                  <ContextMenuItem
+                    className="flex gap-3 items-center"
+                    onSelect={() =>
+                      appConfigDispatch({
+                        type: "updateCharacterArchive",
+                        payload: {
+                          characterIndex,
+                          archiveState: !config.isArchived,
+                        },
+                      })
+                    }
+                  >
+                    <ArchiveIcon className="size-4 text-zinc-500" />
+                    <label>Archive</label>
+                  </ContextMenuItem>
+                  <ContextMenuItem
+                    className="flex gap-3 items-center"
+                    onSelect={() =>
+                      appConfigDispatch({
+                        type: "updateCharacterFavorite",
+                        payload: {
+                          characterIndex,
+                          favoriteState: !config.isFavorite,
+                        },
+                      })
+                    }
+                  >
+                    <StarIcon className="size-4 text-zinc-500" />
+                    <label>Favorite</label>
+                  </ContextMenuItem>
+                  <ContextMenuSeparator />
+                  <ContextMenuItem
+                    className="flex gap-3 items-center text-destructive"
+                    onSelect={() =>
+                      appConfigDispatch({
+                        type: "removeCharacter",
+                        payload: { characterIndex },
+                      })
+                    }
+                  >
+                    <TrashIcon className="size-4" />
+                    <label>Delete</label>
+                  </ContextMenuItem>
+                </ContextMenuContent>
+                <ContextMenuTrigger>
+                  <CharacterConfig {...{ index: characterIndex, config }} />
+                </ContextMenuTrigger>
+              </ContextMenu>
+            )
           })
         ) : (
           <label className="col-span-4 mt-20 text-center text-zinc-500">

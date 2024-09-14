@@ -6,6 +6,7 @@ import { CharacterWeapon } from "@/components/app/CharacterWeapon"
 import { Loading } from "@/components/Loading"
 import { RenderError } from "@/components/RenderError"
 import { Separator } from "@/components/ui/Separator"
+import { StarFilledIcon } from "@radix-ui/react-icons"
 
 // Data Types
 import type { CharacterConfig } from "@/types/CharacterConfig"
@@ -15,6 +16,7 @@ import { createContext, useContext } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 // Utility Functions
+import { cn } from "@/utils/shadcn"
 import { fetchData } from "@/utils/fetchData"
 
 type Props = {
@@ -41,8 +43,20 @@ export function CharacterConfig({ index, config }: Props) {
 
   return (
     <CharacterContext.Provider value={{ index, config }}>
-      <div className="border p-3 rounded-md space-y-3 w-72">
-        <CharacterDetails attributes={characterInfo.data} />
+      <div
+        className={cn(
+          "border p-3 rounded-md space-y-3 w-72",
+          config.isArchived && "grayscale text-zinc-500"
+        )}
+      >
+        <div className="flex">
+          <CharacterDetails attributes={characterInfo.data} />
+          {config.isFavorite && (
+            <div className="absolute bg-white flex items-center justify-center rounded-full size-4 -translate-x-0.5">
+              <StarFilledIcon className="size-3.5 text-yellow-500" />
+            </div>
+          )}
+        </div>
         <Separator />
         <div className="flex flex-col gap-5">
           <CharacterArtifacts />

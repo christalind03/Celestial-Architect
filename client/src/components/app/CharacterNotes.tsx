@@ -28,9 +28,9 @@ export function CharacterNotes() {
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between cursor-pointer" onClick={() => setIsOpen(!isOpen)} >
         <label className="font-bold font-sm">Notes</label>
-        <Button size="icon" onClick={() => setIsOpen(!isOpen)} variant="ghost">
+        <Button size="icon" variant="ghost">
           {isOpen ? (
             <ChevronUpIcon className="size-4" />
           ) : (
