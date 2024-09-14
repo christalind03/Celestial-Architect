@@ -45,7 +45,7 @@ export function CharacterSelector() {
 
     appConfigDispatch({
       type: isSelected ? "removeCharacter" : "addCharacter",
-      payload: isSelected ? { characterID, characterIndex } : { characterID },
+      payload: { characterID, characterIndex },
     })
   }
 
@@ -67,7 +67,7 @@ export function CharacterSelector() {
           displayLabel,
           isSelected,
           onSelect,
-        }, 
+        },
       ]}
     />
   )

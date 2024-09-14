@@ -41,9 +41,7 @@ export function WeaponSelector() {
       type: isSelected(weaponObj)
         ? "removeCharacterWeapon"
         : "addCharacterWeapon",
-      payload: isSelected(weaponObj)
-        ? { characterIndex: index }
-        : { weaponID: weaponObj.id, characterIndex: index },
+      payload: { weaponID: weaponObj.id, characterIndex: index },
     })
   }
 

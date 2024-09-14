@@ -6,4 +6,5 @@ export type CharacterConfig = {
   planarOrnaments: number[]
   lightCone: number | null
   notes: string
+  lastEdit: number
 }

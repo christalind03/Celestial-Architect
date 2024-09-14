@@ -18,6 +18,7 @@ import { useQuery } from "@tanstack/react-query"
 // Utility Functions
 import { cn } from "@/utils/shadcn"
 import { fetchData } from "@/utils/fetchData"
+import { generateTimestamp } from "@/utils/generateTimestamp"
 
 type Props = {
   index: number
@@ -62,6 +63,7 @@ export function CharacterConfig({ index, config }: Props) {
           <CharacterArtifacts />
           <CharacterWeapon characterPath={characterInfo.data.path} />
           <CharacterNotes />
+          <label className="text-[10px] text-zinc-500">Last Edit: {generateTimestamp(config.lastEdit)}</label>
         </div>
       </div>
     </CharacterContext.Provider>
