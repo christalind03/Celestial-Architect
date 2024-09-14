@@ -11,6 +11,7 @@ import { CharacterConfig } from "@/components/app/CharacterConfig"
 import { CharacterSelector } from "@/components/app/CharacterSelector"
 import {
   ContextMenu,
+  ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuSeparator,
@@ -18,8 +19,16 @@ import {
 } from "@/components/ui/ContextMenu"
 
 // Hooks
-import { createContext, useContext, useMemo, useReducer, useState } from "react"
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from "react"
 import { useAppConfig } from "@/hooks/AppConfig"
+import { fetchData } from "@/utils/fetchData"
 
 type FilterOptions = {
   cavernRelics: number[]
@@ -137,28 +146,32 @@ export function AppDashboard() {
     reducerFn,
     defaultFilterOptions
   )
-
+  const [characterData, setCharacterData] = useState<{
+    [id: number]: string
+  }>({})
   const [filterEnabled, setFilterEnabled] = useState<boolean>(false)
   const [showFilter, setShowFilter] = useState<boolean>()
 
-  const filteredCharacters = useMemo(() => {
-    const characterList = Object.values(appConfig).sort(
-      (characterOne, characterTwo) => {
-        // Prioritize by the "isFavorite" property.
-        if (characterOne.isFavorite !== characterTwo.isFavorite) {
-          return characterOne.isFavorite ? -1 : 1
-        }
-        
-        // Prioritize by the "isArchived" property.
-        if (characterOne.isArchived !== characterTwo.isArchived) {
-          return characterOne.isArchived ? 1 : -1
-        }
-
-        // If they are the same, maintain the original order.
-        return 0;
+  const characterList = useMemo(() => {
+    return [...appConfig].sort((configOne, configTwo) => {
+      // Prioritize by the "isFavorite" property.
+      if (configOne.isFavorite !== configTwo.isFavorite) {
+        return configOne.isFavorite ? -1 : 1
       }
-    )
 
+      // Prioritize by the "isArchived" property.
+      if (configOne.isArchived !== configTwo.isArchived) {
+        return configOne.isArchived ? 1 : -1
+      }
+
+      const nameOne = characterData[configOne.id]?.toLowerCase() || ""
+      const nameTwo = characterData[configTwo.id]?.toLowerCase() || ""
+
+      return nameOne.localeCompare(nameTwo)
+    })
+  }, [appConfig, characterData])
+
+  const filteredCharacters = useMemo(() => {
     if (
       filterOptions.cavernRelics.length === 0 ||
       filterOptions.planarOrnaments.length === 0 ||
@@ -187,7 +200,25 @@ export function AppDashboard() {
         )
       }
     )
-  }, [appConfig, filterOptions])
+  }, [characterList, filterOptions])
+
+  useEffect(() => {
+    async function fetchNameData() {
+      const nameData: { [id: number]: string } = {}
+
+      for (const { id } of appConfig) {
+        const characterInfo = await fetchData(
+          `http://localhost:3000/api/v1/characters/${id}`
+        )
+
+        nameData[id] = characterInfo.name
+      }
+
+      setCharacterData(nameData)
+    }
+
+    fetchNameData()
+  }, [appConfig])
 
   return (
     <div className="flex flex-col gap-5 items-center">
@@ -217,8 +248,9 @@ export function AppDashboard() {
 
             return (
               <ContextMenu key={config.id}>
-                <ContextMenuContent>
-                  <ContextMenuItem
+                <ContextMenuContent className="w-40">
+                  <ContextMenuCheckboxItem
+                    checked={config.isArchived}
                     className="flex gap-3 items-center"
                     onSelect={() =>
                       appConfigDispatch({
@@ -232,8 +264,9 @@ export function AppDashboard() {
                   >
                     <ArchiveIcon className="size-4 text-zinc-500" />
                     <label>Archive</label>
-                  </ContextMenuItem>
-                  <ContextMenuItem
+                  </ContextMenuCheckboxItem>
+                  <ContextMenuCheckboxItem
+                    checked={config.isFavorite}
                     className="flex gap-3 items-center"
                     onSelect={() =>
                       appConfigDispatch({
@@ -247,10 +280,11 @@ export function AppDashboard() {
                   >
                     <StarIcon className="size-4 text-zinc-500" />
                     <label>Favorite</label>
-                  </ContextMenuItem>
+                  </ContextMenuCheckboxItem>
                   <ContextMenuSeparator />
                   <ContextMenuItem
                     className="flex gap-3 items-center text-destructive"
+                    inset
                     onSelect={() =>
                       appConfigDispatch({
                         type: "removeCharacter",
