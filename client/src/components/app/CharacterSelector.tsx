@@ -16,7 +16,7 @@ import { fetchData } from "@/utils/fetchData"
 export function CharacterSelector() {
   const { appConfig, appConfigDispatch } = useAppConfig()
   const characterList = useQuery({
-    queryFn: () => fetchData("http://localhost:3000/api/v1/characters"),
+    queryFn: () => fetchData(`${import.meta.env.VITE_API_URL}/api/v1/characters`),
     queryKey: ["characterList"],
   })
 

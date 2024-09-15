@@ -20,7 +20,7 @@ type Props = {
 export function Artifact({ artifactID }: Props) {
   const artifactInfo = useQuery({
     queryFn: () =>
-      fetchData(`http://localhost:3000/api/v1/artifacts/${artifactID}`),
+      fetchData(`${import.meta.env.VITE_API_URL}/api/v1/artifacts/${artifactID}`),
     queryKey: ["artifactInfo", artifactID],
   })
 

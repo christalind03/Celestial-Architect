@@ -35,12 +35,25 @@ const CharacterContext = createContext<Character | undefined>(undefined)
 export function CharacterConfig({ index, config }: Props) {
   const characterInfo = useQuery({
     queryFn: () =>
-      fetchData(`http://localhost:3000/api/v1/characters/${config.id}`),
+      fetchData(
+        `${import.meta.env.VITE_API_URL}/api/v1/characters/${config.id}`
+      ),
     queryKey: ["characterInfo", config.id],
   })
 
-  if (characterInfo.isError) return <RenderError error={characterInfo.error} />
-  if (characterInfo.isLoading) return <Loading />
+  if (characterInfo.isError)
+    return (
+      <div className="w-72">
+        <RenderError error={characterInfo.error} />
+      </div>
+    )
+
+  if (characterInfo.isLoading)
+    return (
+      <div className="w-72">
+        <Loading />
+      </div>
+    )
 
   return (
     <CharacterContext.Provider value={{ index, config }}>

@@ -12,9 +12,7 @@ export function RenderError({ error }: Props) {
 
       {/* @ts-ignore */}
       <AlertTitle>ERROR {error.code}</AlertTitle>
-      <AlertDescription className="overflow-wrap whitespace-pre">
-        {(error && error.message) || "Undefined"}
-      </AlertDescription>
+      <AlertDescription className="text-xs">{error?.message || "Undefined"}</AlertDescription>
     </Alert>
   )
 }

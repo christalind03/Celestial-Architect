@@ -17,7 +17,7 @@ import { fetchData } from "@/utils/fetchData"
 export function WeaponFilter() {
   const { filterOptions, filterOptionsDispatch } = useFilter()
   const weaponList = useQuery({
-    queryFn: () => fetchData("http://localhost:3000/api/v1/weapons"),
+    queryFn: () => fetchData(`${import.meta.env.VITE_API_URL}/api/v1/weapons`),
     queryKey: ["weaponList"],
   })
 

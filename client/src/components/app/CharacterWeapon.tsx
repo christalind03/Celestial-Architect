@@ -26,7 +26,7 @@ export function CharacterWeapon({ characterPath }: Props) {
 
   const weaponInfo = useQuery({
     queryFn: () =>
-      fetchData(`http://localhost:3000/api/v1/weapons/${config.lightCone}`),
+      fetchData(`${import.meta.env.VITE_API_URL}/api/v1/weapons/${config.lightCone}`),
     queryKey: ["weaponInfo", config.lightCone],
     enabled: !!config.lightCone,
   })
@@ -34,7 +34,7 @@ export function CharacterWeapon({ characterPath }: Props) {
   const weaponExtras = useQuery({
     queryFn: () =>
       fetchData(
-        `http://localhost:3000/api/v1/weapons/${config.lightCone}/extras`
+        `${import.meta.env.VITE_API_URL}/api/v1/weapons/${config.lightCone}/extras`
       ),
     queryKey: ["weaponExtras", config.lightCone],
     enabled: !!config.lightCone,

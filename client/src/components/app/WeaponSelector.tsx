@@ -20,7 +20,7 @@ export function WeaponSelector() {
   const { appConfigDispatch } = useAppConfig()
 
   const weaponList = useQuery({
-    queryFn: () => fetchData("http://localhost:3000/api/v1/weapons"),
+    queryFn: () => fetchData(`${import.meta.env.VITE_API_URL}/api/v1/weapons`),
     queryKey: ["weaponList"],
   })
 

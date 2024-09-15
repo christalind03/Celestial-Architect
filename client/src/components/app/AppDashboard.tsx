@@ -208,7 +208,7 @@ export function AppDashboard() {
 
       for (const { id } of appConfig) {
         const characterInfo = await fetchData(
-          `http://localhost:3000/api/v1/characters/${id}`
+          `${import.meta.env.VITE_API_URL}/api/v1/characters/${id}`
         )
 
         nameData[id] = characterInfo.name

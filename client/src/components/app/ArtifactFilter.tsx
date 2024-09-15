@@ -22,7 +22,7 @@ type Props = {
 export function ArtifactFilter({ isCavern }: Props) {
   const { filterOptions, filterOptionsDispatch } = useFilter()
   const allArtifacts = useQuery({
-    queryFn: () => fetchData("http://localhost:3000/api/v1/artifacts"),
+    queryFn: () => fetchData(`${import.meta.env.VITE_API_URL}/api/v1/artifacts`),
     queryKey: ["artifactList"],
   })
 
