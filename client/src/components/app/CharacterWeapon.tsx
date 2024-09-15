@@ -43,12 +43,11 @@ export function CharacterWeapon({ characterPath }: Props) {
   const [toggleDetails, setToggleDetails] = useState<boolean>(false)
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="gap-1 grid grid-rows-subgrid row-span-2">
       <div className="flex items-center justify-between">
         <label className="font-bold">Light Cone</label>
         <WeaponSelector />
       </div>
-
       {weaponInfo.isError ? (
         <RenderError error={weaponInfo.error} />
       ) : weaponExtras.isError ? (
@@ -81,7 +80,6 @@ export function CharacterWeapon({ characterPath }: Props) {
               </label>
             </div>
           </div>
-
           {toggleDetails ? (
             characterPath === weaponInfo.data.path ? (
               <Tabs defaultValue="0">
@@ -130,7 +128,7 @@ export function CharacterWeapon({ characterPath }: Props) {
           ) : null}
         </div>
       ) : (
-        <p className="py-3 text-center text-xs text-zinc-500">
+        <p className="flex h-full items-center justify-center py-3 text-xs text-zinc-500">
           No Light Cone Equipped.
         </p>
       )}

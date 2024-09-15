@@ -46,24 +46,26 @@ export function CharacterConfig({ index, config }: Props) {
     <CharacterContext.Provider value={{ index, config }}>
       <div
         className={cn(
-          "border p-3 rounded-md space-y-3 w-72",
+          "border gap-3 grid grid-rows-subgrid p-3 row-span-9 rounded-md w-72",
           config.isArchived && "grayscale text-zinc-500"
         )}
       >
-        <div className="flex">
+        <div className="flex h-full items-center">
           <CharacterDetails attributes={characterInfo.data} />
           {config.isFavorite && (
-            <div className="absolute bg-white flex items-center justify-center rounded-full size-4 -translate-x-0.5">
+            <div className="absolute bg-white flex items-center justify-center rounded-full size-4 -translate-x-0.5 -translate-y-3">
               <StarFilledIcon className="size-3.5 text-amber-500" />
             </div>
           )}
         </div>
         <Separator />
-        <div className="flex flex-col gap-5">
+        <div className="gap-5 grid grid-rows-subgrid row-span-7">
           <CharacterArtifacts />
           <CharacterWeapon characterPath={characterInfo.data.path} />
           <CharacterNotes />
-          <label className="text-[10px] text-zinc-500">Last Edit: {generateTimestamp(config.lastEdit)}</label>
+          <label className="mt-3 text-[10px] text-zinc-500">
+            Last Edit: {generateTimestamp(config.lastEdit)}
+          </label>
         </div>
       </div>
     </CharacterContext.Provider>

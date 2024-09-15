@@ -3,9 +3,9 @@ import { ArtifactGroup } from "@/components/app/ArtifactGroup"
 
 export function CharacterArtifacts() {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="gap-1 grid grid-rows-subgrid row-span-3">
       <label className="font-bold">Relics</label>
-      <div className="flex flex-col gap-3 ml-3">
+      <div className="gap-3 grid grid-rows-subgrid row-span-2 ml-3">
         <ArtifactGroup isCavern={true} />
         <ArtifactGroup isCavern={false} />
       </div>

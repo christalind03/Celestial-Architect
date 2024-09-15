@@ -38,7 +38,6 @@ export function CharacterNotes() {
           )}
         </Button>
       </div>
-
       {isOpen && (
         <Textarea
           className="border-none p-0 text-xs focus-visible:ring-0"

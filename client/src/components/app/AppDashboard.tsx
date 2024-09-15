@@ -225,7 +225,7 @@ export function AppDashboard() {
       <div className="flex gap-3 items-center">
         <CharacterSelector />
         <Button
-          size="icon"
+          className="px-2.5"
           onClick={() => setShowFilter(!showFilter)}
           variant={filterEnabled ? "default" : "outline"}
         >
@@ -239,7 +239,7 @@ export function AppDashboard() {
           <AppFilters />
         </FilterContext.Provider>
       )}
-      <div className="gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="gap-5 grid grid-cols-1 mt-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredCharacters.length !== 0 ? (
           filteredCharacters.map((config) => {
             const characterIndex = appConfig.findIndex(
@@ -296,7 +296,7 @@ export function AppDashboard() {
                     <label>Delete</label>
                   </ContextMenuItem>
                 </ContextMenuContent>
-                <ContextMenuTrigger>
+                <ContextMenuTrigger className="grid grid-rows-subgrid row-span-9">
                   <CharacterConfig {...{ index: characterIndex, config }} />
                 </ContextMenuTrigger>
               </ContextMenu>

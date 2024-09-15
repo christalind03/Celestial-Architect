@@ -83,7 +83,7 @@ function reducerFn(storageKey: string) {
 
       case "removeCharacter": {
         stateCopy.splice(characterIndex, 1)
-        break
+        return saveConfig(stateCopy, storageKey)
       }
 
       case "removeCharacterArtifact": {
