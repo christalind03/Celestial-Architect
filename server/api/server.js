@@ -1,9 +1,9 @@
 const cors = require("cors")
 const express = require("express")
 
-const artifactRoutes = require("./api/v1/routes/artifactRoutes")
-const characterRoutes = require("./api/v1/routes/characterRoutes")
-const weaponRoutes = require("./api/v1/routes/weaponRoutes")
+const artifactRoutes = require("./v1/routes/artifactRoutes")
+const characterRoutes = require("./v1/routes/characterRoutes")
+const weaponRoutes = require("./v1/routes/weaponRoutes")
 
 const app = express()
 const port = process.env.PORT || 3000
