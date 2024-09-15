@@ -14,4 +14,6 @@ app.use("/api/v1/artifacts", artifactRoutes)
 app.use("/api/v1/characters", characterRoutes)
 app.use("/api/v1/weapons", weaponRoutes)
 
-app.listen(port, () => { console.log(`Server running on PORT ${port}`)})
+app.listen(port, () => {
+  console.log(`Server running on PORT ${port}`)
+})
