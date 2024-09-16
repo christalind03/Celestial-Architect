@@ -12,15 +12,15 @@ const queryClient = new QueryClient()
 
 export function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Header />
+    <AppConfig storageKey="app-config">
+      <QueryClientProvider client={queryClient}>
+        <Header />
 
-      <AppConfig storageKey="app-config">
         <Layout>
           <Hero />
           <AppDashboard />
         </Layout>
-      </AppConfig>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </AppConfig>
   )
 }
