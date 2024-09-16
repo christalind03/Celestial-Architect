@@ -13,9 +13,14 @@ import { useCharacter } from "@/components/app/CharacterConfig"
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+// Service Functions
+import {
+  fetchWeaponByID,
+  fetchWeaponDetailsByID,
+} from "@/services/fetchWeapons"
+
 // Utility Functions
 import { cn } from "@/utils/shadcn"
-import { fetchData } from "@/utils/fetchData"
 
 type Props = {
   characterPath: string
@@ -25,17 +30,13 @@ export function CharacterWeapon({ characterPath }: Props) {
   const { config } = useCharacter()
 
   const weaponInfo = useQuery({
-    queryFn: () =>
-      fetchData(`${import.meta.env.VITE_API_URL}/api/v1/weapons/${config.lightCone}`),
+    queryFn: () => fetchWeaponByID(config.lightCone!),
     queryKey: ["weaponInfo", config.lightCone],
     enabled: !!config.lightCone,
   })
 
   const weaponExtras = useQuery({
-    queryFn: () =>
-      fetchData(
-        `${import.meta.env.VITE_API_URL}/api/v1/weapons/${config.lightCone}/extras`
-      ),
+    queryFn: () => fetchWeaponDetailsByID(config.lightCone!),
     queryKey: ["weaponExtras", config.lightCone],
     enabled: !!config.lightCone,
   })

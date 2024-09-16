@@ -15,9 +15,11 @@ import type { CharacterConfig } from "@/types/CharacterConfig"
 import { createContext, useContext } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+// Service Functions
+import { fetchCharacterByID } from "@/services/fetchCharacters"
+
 // Utility Functions
 import { cn } from "@/utils/shadcn"
-import { fetchData } from "@/utils/fetchData"
 import { generateTimestamp } from "@/utils/generateTimestamp"
 
 type Props = {
@@ -34,10 +36,7 @@ const CharacterContext = createContext<Character | undefined>(undefined)
 
 export function CharacterConfig({ index, config }: Props) {
   const characterInfo = useQuery({
-    queryFn: () =>
-      fetchData(
-        `${import.meta.env.VITE_API_URL}/api/v1/characters/${config.id}`
-      ),
+    queryFn: () => fetchCharacterByID(config.id),
     queryKey: ["characterInfo", config.id],
   })
 

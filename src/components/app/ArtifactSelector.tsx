@@ -10,11 +10,10 @@ import type { Artifact } from "@/types/Artifact"
 // Hooks
 import { useAppConfig } from "@/hooks/AppConfig"
 import { useCharacter } from "@/components/app/CharacterConfig"
-import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-// Utility Functions
-import { fetchData } from "@/utils/fetchData"
+// Service Functions
+import { fetchArtifacts } from "@/services/fetchArtifacts"
 
 type Props = {
   isCavern: boolean
@@ -24,20 +23,11 @@ export function ArtifactSelector({ isCavern }: Props) {
   const { index, config } = useCharacter()
   const { appConfigDispatch } = useAppConfig()
 
-  const allArtifacts = useQuery({
-    queryFn: () => fetchData(`${import.meta.env.VITE_API_URL}/api/v1/artifacts`),
-    queryKey: ["artifactList"],
-  })
-
   const artifactGroup = isCavern ? "cavernRelics" : "planarOrnaments"
-  const artifactList = useMemo(() => {
-    if (allArtifacts.data) {
-      return allArtifacts.data.filter(
-        (artifactSet: Artifact) =>
-          artifactSet.type === (isCavern ? "Cavern Relic" : "Planar Ornament")
-      )
-    }
-  }, [allArtifacts.data])
+  const artifactList = useQuery({
+    queryFn: () => fetchArtifacts(isCavern),
+    queryKey: [artifactGroup],
+  })
 
   function displayImage({ id: artifactID }: Artifact) {
     return (
@@ -64,9 +54,9 @@ export function ArtifactSelector({ isCavern }: Props) {
 
   return (
     <MultiSelect<Artifact>
-      error={allArtifacts.error}
-      isError={allArtifacts.isError}
-      isLoading={allArtifacts.isLoading}
+      error={artifactList.error}
+      isError={artifactList.isError}
+      isLoading={artifactList.isLoading}
       renderButton={
         <Button size="icon" variant="ghost">
           <Pencil1Icon className="size-4" />
@@ -75,7 +65,7 @@ export function ArtifactSelector({ isCavern }: Props) {
       renderGroups={[
         {
           heading: `${isCavern ? "Cavern Relic" : "Planar Ornament"}s`,
-          iterator: artifactList,
+          iterator: artifactList.data || [],
           displayImage,
           displayLabel,
           isSelected,

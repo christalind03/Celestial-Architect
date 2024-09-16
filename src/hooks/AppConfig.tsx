@@ -41,21 +41,24 @@ const AppContext = createContext<AppConfigState>(initialState)
 
 function reducerFn(storageKey: string) {
   return (state: AppConfig, action: AppConfigDispatch) => {
+    let stateCopy = [...state]
     let { characterIndex, ...payloadData } = retrievePayload(action)
-    const stateCopy = [...state]
 
     switch (action.type) {
       case "addCharacter": {
-        stateCopy.push({
-          id: payloadData.characterID,
-          isArchived: false,
-          isFavorite: false,
-          cavernRelics: [],
-          planarOrnaments: [],
-          lightCone: null,
-          notes: "",
-          lastEdit: Date.now(),
-        })
+        stateCopy = [
+          ...stateCopy,
+          {
+              id: payloadData.characterID,
+              isArchived: false,
+              isFavorite: false,
+              cavernRelics: [],
+              planarOrnaments: [],
+              lightCone: null,
+              notes: "",
+              lastEdit: Date.now(),
+          },
+        ]
 
         characterIndex = stateCopy.length - 1
         break

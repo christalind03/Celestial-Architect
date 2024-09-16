@@ -12,15 +12,15 @@ import { useAppConfig } from "@/hooks/AppConfig"
 import { useCharacter } from "@/components/app/CharacterConfig"
 import { useQuery } from "@tanstack/react-query"
 
-// Utility Functions
-import { fetchData } from "@/utils/fetchData"
+// Service Functions
+import { fetchWeapons } from "@/services/fetchWeapons"
 
 export function WeaponSelector() {
   const { index, config } = useCharacter()
   const { appConfigDispatch } = useAppConfig()
 
   const weaponList = useQuery({
-    queryFn: () => fetchData(`${import.meta.env.VITE_API_URL}/api/v1/weapons`),
+    queryFn: fetchWeapons,
     queryKey: ["weaponList"],
   })
 
@@ -58,7 +58,7 @@ export function WeaponSelector() {
       renderGroups={[
         {
           heading: "Light Cones",
-          iterator: weaponList.data,
+          iterator: weaponList.data || [],
           displayImage,
           displayLabel,
           isSelected,

@@ -28,7 +28,12 @@ import {
   useState,
 } from "react"
 import { useAppConfig } from "@/hooks/AppConfig"
-import { fetchData } from "@/utils/fetchData"
+
+// Service Functions
+import { fetchCharacterByID, fetchCharacters } from "@/services/fetchCharacters"
+import { useQuery } from "@tanstack/react-query"
+import { RenderError } from "../RenderError"
+import { Loading } from "../Loading"
 
 type FilterOptions = {
   cavernRelics: number[]
@@ -77,7 +82,7 @@ function reducerFn(state: FilterOptions, action: FilterOptionsDispatch) {
         stateCopy[artifactGroup].push(artifactID)
       }
 
-      return stateCopy
+      break
     }
 
     case "addWeapon": {
@@ -87,7 +92,7 @@ function reducerFn(state: FilterOptions, action: FilterOptionsDispatch) {
         stateCopy.lightCones.push(weaponID)
       }
 
-      return stateCopy
+      break
     }
 
     case "clearArtifacts": {
@@ -95,14 +100,12 @@ function reducerFn(state: FilterOptions, action: FilterOptionsDispatch) {
       const artifactGroup = isCavern ? "cavernRelics" : "planarOrnaments"
 
       stateCopy[artifactGroup] = []
-
-      return stateCopy
+      break
     }
 
     case "clearWeapons": {
       stateCopy.lightCones = []
-
-      return stateCopy
+      break
     }
 
     case "removeArtifact": {
@@ -113,7 +116,7 @@ function reducerFn(state: FilterOptions, action: FilterOptionsDispatch) {
         (currArtifact) => currArtifact !== artifactID
       )
 
-      return stateCopy
+      break
     }
 
     case "removeWeapon": {
@@ -123,12 +126,14 @@ function reducerFn(state: FilterOptions, action: FilterOptionsDispatch) {
         (currWeapon) => currWeapon !== weaponID
       )
 
-      return stateCopy
+      break
     }
 
     default:
       throw new Error(`${action.type} is not a valid action type.`)
   }
+
+  return stateCopy
 }
 
 function retrievePayload(action: FilterOptionsDispatch) {
@@ -146,14 +151,25 @@ export function AppDashboard() {
     reducerFn,
     defaultFilterOptions
   )
-  const [characterData, setCharacterData] = useState<{
-    [id: number]: string
-  }>({})
   const [filterEnabled, setFilterEnabled] = useState<boolean>(false)
   const [showFilter, setShowFilter] = useState<boolean>()
 
+  const characterNames = useQuery({
+    queryFn: async () => {
+      const allCharacters = await fetchCharacters()
+      const nameDict: { [id: number]: string } = {}
+
+      for (const { id, name } of allCharacters) {
+        nameDict[id] = name
+      }
+
+      return nameDict
+    },
+    queryKey: ["characterNames"],
+  })
+
   const characterList = useMemo(() => {
-    return [...appConfig].sort((configOne, configTwo) => {
+    const sortedCharacters = [...appConfig].sort((configOne, configTwo) => {
       // Prioritize by the "isFavorite" property.
       if (configOne.isFavorite !== configTwo.isFavorite) {
         return configOne.isFavorite ? -1 : 1
@@ -164,17 +180,24 @@ export function AppDashboard() {
         return configOne.isArchived ? 1 : -1
       }
 
-      const nameOne = characterData[configOne.id]?.toLowerCase() || ""
-      const nameTwo = characterData[configTwo.id]?.toLowerCase() || ""
+      const nameOne = characterNames.data?.[configOne.id]
+        ? characterNames.data[configOne.id].toLowerCase()
+        : ""
+
+      const nameTwo = characterNames.data?.[configTwo.id]
+        ? characterNames.data[configTwo.id].toLowerCase()
+        : ""
 
       return nameOne.localeCompare(nameTwo)
     })
-  }, [appConfig, characterData])
+
+    return sortedCharacters
+  }, [appConfig, characterNames.data])
 
   const filteredCharacters = useMemo(() => {
     if (
-      filterOptions.cavernRelics.length === 0 ||
-      filterOptions.planarOrnaments.length === 0 ||
+      filterOptions.cavernRelics.length === 0 &&
+      filterOptions.planarOrnaments.length === 0 &&
       filterOptions.lightCones.length === 0
     ) {
       setFilterEnabled(false)
@@ -202,23 +225,8 @@ export function AppDashboard() {
     )
   }, [characterList, filterOptions])
 
-  useEffect(() => {
-    async function fetchNameData() {
-      const nameData: { [id: number]: string } = {}
-
-      for (const { id } of appConfig) {
-        const characterInfo = await fetchData(
-          `${import.meta.env.VITE_API_URL}/api/v1/characters/${id}`
-        )
-
-        nameData[id] = characterInfo.name
-      }
-
-      setCharacterData(nameData)
-    }
-
-    fetchNameData()
-  }, [appConfig])
+  if (characterNames.isError) return <RenderError error={characterNames.error} />
+  if (characterNames.isLoading) return <Loading />
 
   return (
     <div className="flex flex-col gap-5 items-center">

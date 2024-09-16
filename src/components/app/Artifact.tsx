@@ -10,8 +10,8 @@ import type { Artifact } from "@/types/Artifact"
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-// Utility Functions
-import { fetchData } from "@/utils/fetchData"
+// Service Functions
+import { fetchArtifactByID } from "@/services/fetchArtifacts"
 
 type Props = {
   artifactID: number
@@ -19,8 +19,7 @@ type Props = {
 
 export function Artifact({ artifactID }: Props) {
   const artifactInfo = useQuery({
-    queryFn: () =>
-      fetchData(`${import.meta.env.VITE_API_URL}/api/v1/artifacts/${artifactID}`),
+    queryFn: () => fetchArtifactByID(artifactID),
     queryKey: ["artifactInfo", artifactID],
   })
 
@@ -46,7 +45,7 @@ export function Artifact({ artifactID }: Props) {
           </label>
         </div>
       </div>
-      
+
       {toggleDetails && (
         <div className="flex flex-col gap-1">
           {artifactInfo.data.baseEffect && (

@@ -10,13 +10,13 @@ import type { Character } from "@/types/Character"
 import { useAppConfig } from "@/hooks/AppConfig"
 import { useQuery } from "@tanstack/react-query"
 
-// Utility Functions
-import { fetchData } from "@/utils/fetchData"
+// Service Functions
+import { fetchCharacters } from "@/services/fetchCharacters"
 
 export function CharacterSelector() {
   const { appConfig, appConfigDispatch } = useAppConfig()
   const characterList = useQuery({
-    queryFn: () => fetchData(`${import.meta.env.VITE_API_URL}/api/v1/characters`),
+    queryFn: fetchCharacters,
     queryKey: ["characterList"],
   })
 
@@ -62,7 +62,7 @@ export function CharacterSelector() {
       renderGroups={[
         {
           heading: "Characters",
-          iterator: characterList.data,
+          iterator: characterList.data || [],
           displayImage,
           displayLabel,
           isSelected,

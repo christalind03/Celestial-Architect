@@ -9,11 +9,10 @@ import type { Artifact } from "@/types/Artifact"
 
 // Hooks
 import { useFilter } from "@/components/app/AppDashboard"
-import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-// Utility Functions
-import { fetchData } from "@/utils/fetchData"
+// Service Functions
+import { fetchArtifacts } from "@/services/fetchArtifacts"
 
 type Props = {
   isCavern: boolean
@@ -21,20 +20,12 @@ type Props = {
 
 export function ArtifactFilter({ isCavern }: Props) {
   const { filterOptions, filterOptionsDispatch } = useFilter()
-  const allArtifacts = useQuery({
-    queryFn: () => fetchData(`${import.meta.env.VITE_API_URL}/api/v1/artifacts`),
-    queryKey: ["artifactList"],
-  })
-
+  
   const artifactGroup = isCavern ? "cavernRelics" : "planarOrnaments"
-  const artifactList = useMemo(() => {
-    if (allArtifacts.data) {
-      return allArtifacts.data.filter(
-        (artifactSet: Artifact) =>
-          artifactSet.type === (isCavern ? "Cavern Relic" : "Planar Ornament")
-      )
-    }
-  }, [allArtifacts.data])
+  const artifactList = useQuery({
+    queryFn: () => fetchArtifacts(isCavern),
+    queryKey: [artifactGroup],
+  })
 
   function displayImage({ id: artifactID }: Artifact) {
     return (
@@ -59,9 +50,9 @@ export function ArtifactFilter({ isCavern }: Props) {
 
   return (
     <MultiSelect<Artifact>
-      error={allArtifacts.error}
-      isError={allArtifacts.isError}
-      isLoading={allArtifacts.isLoading}
+      error={artifactList.error}
+      isError={artifactList.isError}
+      isLoading={artifactList.isLoading}
       renderButton={
         <Button
           className="flex items-center justify-between w-72"
@@ -87,7 +78,7 @@ export function ArtifactFilter({ isCavern }: Props) {
       renderGroups={[
         {
           heading: `${isCavern ? "Cavern Relic" : "Planar Ornament"}s`,
-          iterator: artifactList,
+          iterator: artifactList.data || [],
           displayImage,
           displayLabel,
           isSelected,
