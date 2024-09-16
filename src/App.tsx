@@ -15,12 +15,12 @@ export function App() {
     <QueryClientProvider client={queryClient}>
       <Header />
 
-      <Layout>
-        <Hero />
-        <AppConfig storageKey="app-config">
+      <AppConfig storageKey="app-config">
+        <Layout>
+          <Hero />
           <AppDashboard />
-        </AppConfig>
-      </Layout>
+        </Layout>
+      </AppConfig>
     </QueryClientProvider>
   )
 }
