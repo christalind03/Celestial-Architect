@@ -15,7 +15,7 @@ export function WeaponDescription({ title, baseDescription, parameters }: Props)
     let lastIndex = 0
 
     while ((match = paramPattern.exec(baseDescription)) !== null) {
-      const [matchedText, paramIndex, isPercentage] = match
+      const [_, paramIndex, isPercentage] = match
       const arrayIndex = parseInt(paramIndex, 10) - 1
 
       // Push the text before the current match

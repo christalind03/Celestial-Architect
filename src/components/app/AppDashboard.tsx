@@ -17,23 +17,22 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/ContextMenu"
+import { Loading } from "@/components/Loading"
+import { RenderError } from "@/components/RenderError"
 
 // Hooks
 import {
   createContext,
   useContext,
-  useEffect,
   useMemo,
   useReducer,
   useState,
 } from "react"
 import { useAppConfig } from "@/hooks/AppConfig"
+import { useQuery } from "@tanstack/react-query"
 
 // Service Functions
-import { fetchCharacterByID, fetchCharacters } from "@/services/fetchCharacters"
-import { useQuery } from "@tanstack/react-query"
-import { RenderError } from "../RenderError"
-import { Loading } from "../Loading"
+import { fetchCharacters } from "@/services/fetchCharacters"
 
 type FilterOptions = {
   cavernRelics: number[]
