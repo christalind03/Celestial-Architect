@@ -168,7 +168,7 @@ export function AppDashboard() {
   })
 
   const characterList = useMemo(() => {
-    const sortedCharacters = [...appConfig].sort((configOne, configTwo) => {
+    const sortedCharacters = appConfig.sort((configOne, configTwo) => {
       // Prioritize by the "isFavorite" property.
       if (configOne.isFavorite !== configTwo.isFavorite) {
         return configOne.isFavorite ? -1 : 1

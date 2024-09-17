@@ -42,8 +42,6 @@ const AppContext = createContext<AppConfigState>(initialState)
 
 function reducerFn(storageKey: string) {
   return (state: AppConfig, action: AppConfigDispatch) => {
-    console.log("Action: ", action.type)
-
     let stateCopy = [...state]
     let { characterIndex, ...payloadData } = retrievePayload(action)
 
@@ -88,7 +86,6 @@ function reducerFn(storageKey: string) {
       }
 
       case "clearData": {
-        console.log("Attempting to delete data...")
         return saveConfig([], storageKey)
       }
 

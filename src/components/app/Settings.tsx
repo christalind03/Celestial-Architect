@@ -1,22 +1,8 @@
 // Components
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/AlertDialog"
 import { Button } from "@/components/ui/Button"
-import {
-  DownloadIcon,
-  GearIcon,
-  TrashIcon,
-  UploadIcon,
-} from "@radix-ui/react-icons"
+import { ClearData } from "@/components/app/ClearData"
+import { DownloadIcon, GearIcon } from "@radix-ui/react-icons"
+import { ExportData } from "@/components/app/ExportData"
 import {
   Sheet,
   SheetContent,
@@ -27,11 +13,10 @@ import {
 import { Separator } from "@/components/ui/Separator"
 
 // Hooks
-import { useAppConfig } from "@/hooks/AppConfig"
 import { useState } from "react"
 
+
 export function Settings() {
-  const { appConfigDispatch } = useAppConfig()
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   return (
@@ -46,42 +31,10 @@ export function Settings() {
         </SheetHeader>
         <div className="flex flex-col gap-1 items-center mt-3 w-full">
           <Button className="w-full" variant="ghost">
-            <UploadIcon className="mr-2 size-4" /> Import Data
+            <DownloadIcon className="mr-2 size-4" /> Import Data
           </Button>
-          <Button className="w-full" variant="ghost">
-            <DownloadIcon className="mr-2 size-4" /> Export Data
-          </Button>
-          <AlertDialog>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Clear Data?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action is permanent and cannot be undone. <br /> All
-                  associated information will be lost.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  className="bg-destructive hover:bg-destructive"
-                  onClick={() => {
-                    appConfigDispatch({ type: "clearData", payload: {} })
-                    setIsOpen(false)
-                  }}
-                >
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-            <AlertDialogTrigger asChild>
-              <Button
-                className="text-destructive w-full hover:bg-destructive"
-                variant="ghost"
-              >
-                <TrashIcon className="mr-2 size-4" /> Clear Data
-              </Button>
-            </AlertDialogTrigger>
-          </AlertDialog>
+          <ExportData displaySettings={setIsOpen} />
+          <ClearData displaySettings={setIsOpen} />
         </div>
       </SheetContent>
       <SheetTrigger asChild>
