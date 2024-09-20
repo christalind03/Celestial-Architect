@@ -15,9 +15,6 @@ import type { CharacterConfig } from "@/types/CharacterConfig"
 import { createContext, useContext } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-// Service Functions
-import { fetchCharacterByID } from "@/services/fetchCharacters"
-
 // Utility Functions
 import { cn } from "@/utils/shadcn"
 import { generateTimestamp } from "@/utils/generateTimestamp"
@@ -35,25 +32,6 @@ type Character = {
 const CharacterContext = createContext<Character | undefined>(undefined)
 
 export function CharacterConfig({ index, config }: Props) {
-  const characterInfo = useQuery({
-    queryFn: () => fetchCharacterByID(config.id),
-    queryKey: ["characterInfo", config.id],
-  })
-
-  if (characterInfo.isError)
-    return (
-      <div className="w-72">
-        <RenderError error={characterInfo.error} />
-      </div>
-    )
-
-  if (characterInfo.isLoading)
-    return (
-      <div className="w-72">
-        <Loading />
-      </div>
-    )
-
   return (
     <CharacterContext.Provider value={{ index, config }}>
       <div
@@ -62,8 +40,8 @@ export function CharacterConfig({ index, config }: Props) {
           config.isArchived && "grayscale text-zinc-500"
         )}
       >
-        <div className="flex h-full items-center">
-          <CharacterDetails attributes={characterInfo.data} />
+        <div className="flex h-full items-center relative">
+          <CharacterDetails characterID={config.id} />
           {config.isFavorite && (
             <div className="absolute bg-white flex items-center justify-center rounded-full size-4 -translate-x-0.5 -translate-y-3">
               <StarFilledIcon className="size-3.5 text-amber-500" />
@@ -72,8 +50,8 @@ export function CharacterConfig({ index, config }: Props) {
         </div>
         <Separator />
         <div className="gap-5 grid grid-rows-subgrid row-span-7">
-          <CharacterArtifacts />
-          <CharacterWeapon characterPath={characterInfo.data.path} />
+          <CharacterArtifacts characterConfig={config} isEditable={true} />
+          <CharacterWeapon characterConfig={config} isEditable={true} />
           <CharacterNotes />
           <label className="mt-3 text-[10px] text-zinc-500">
             Last Edit: {generateTimestamp(config.lastEdit)}

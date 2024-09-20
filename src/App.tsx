@@ -3,6 +3,7 @@ import { AppDashboard } from "@/components/app/AppDashboard"
 import { Header } from "@/components/Header"
 import { Hero } from "@/components/Hero"
 import { Layout } from "@/components/Layout"
+import { Toaster } from "@/components/ui/Toaster"
 
 // Hooks
 import { AppConfig } from "@/hooks/AppConfig"
@@ -14,6 +15,7 @@ export function App() {
   return (
     <AppConfig storageKey="app-config">
       <QueryClientProvider client={queryClient}>
+        <Toaster />
         <Header />
 
         <Layout>

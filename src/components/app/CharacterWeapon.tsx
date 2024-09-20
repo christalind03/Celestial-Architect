@@ -8,12 +8,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs"
 import { WeaponDescription } from "@/components/app/WeaponDescription"
 import { WeaponSelector } from "@/components/app/WeaponSelector"
 
+// Data Types
+import type { CharacterConfig } from "@/types/CharacterConfig"
+
 // Hooks
-import { useCharacter } from "@/components/app/CharacterConfig"
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 // Service Functions
+import { fetchCharacterByID } from "@/services/fetchCharacters"
 import {
   fetchWeaponByID,
   fetchWeaponDetailsByID,
@@ -23,22 +26,26 @@ import {
 import { cn } from "@/utils/shadcn"
 
 type Props = {
-  characterPath: string
+  characterConfig: CharacterConfig
+  isEditable: boolean
 }
 
-export function CharacterWeapon({ characterPath }: Props) {
-  const { config } = useCharacter()
+export function CharacterWeapon({ characterConfig, isEditable }: Props) {
+  const characterInfo = useQuery({
+    queryFn: () => fetchCharacterByID(characterConfig.id),
+    queryKey: ["characterInfo", characterConfig.id],
+  })
 
   const weaponInfo = useQuery({
-    queryFn: () => fetchWeaponByID(config.lightCone!),
-    queryKey: ["weaponInfo", config.lightCone],
-    enabled: !!config.lightCone,
+    queryFn: () => fetchWeaponByID(characterConfig.lightCone!),
+    queryKey: ["weaponInfo", characterConfig.lightCone],
+    enabled: !!characterConfig.lightCone,
   })
 
   const weaponExtras = useQuery({
-    queryFn: () => fetchWeaponDetailsByID(config.lightCone!),
-    queryKey: ["weaponExtras", config.lightCone],
-    enabled: !!config.lightCone,
+    queryFn: () => fetchWeaponDetailsByID(characterConfig.lightCone!),
+    queryKey: ["weaponExtras", characterConfig.lightCone],
+    enabled: !!characterConfig.lightCone,
   })
 
   const [toggleDetails, setToggleDetails] = useState<boolean>(false)
@@ -47,13 +54,15 @@ export function CharacterWeapon({ characterPath }: Props) {
     <div className="gap-1 grid grid-rows-subgrid row-span-2">
       <div className="flex items-center justify-between">
         <label className="font-bold">Light Cone</label>
-        <WeaponSelector />
+        {isEditable && <WeaponSelector />}
       </div>
-      {weaponInfo.isError ? (
-        <RenderError error={weaponInfo.error} />
-      ) : weaponExtras.isError ? (
-        <RenderError error={weaponExtras.error} />
-      ) : weaponInfo.isLoading || weaponExtras.isLoading ? (
+      {characterInfo.isError || weaponInfo.isError || weaponExtras.isError ? (
+        <RenderError
+          error={characterInfo.error || weaponInfo.error || weaponExtras.error}
+        />
+      ) : characterInfo.isLoading ||
+        weaponInfo.isLoading ||
+        weaponExtras.isLoading ? (
         <Loading />
       ) : weaponInfo.data && weaponExtras.data ? (
         <div className="flex flex-col gap-3 text-xs">
@@ -82,7 +91,7 @@ export function CharacterWeapon({ characterPath }: Props) {
             </div>
           </div>
           {toggleDetails ? (
-            characterPath === weaponInfo.data.path ? (
+            characterInfo.data.path === weaponInfo.data.path ? (
               <Tabs defaultValue="0">
                 <TabsList className="grid grid-cols-5 h-7">
                   {/* Simplify the amount of code written by making a fixed array of 5 elements representing the superimposition levels. */}

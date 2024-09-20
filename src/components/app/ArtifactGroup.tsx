@@ -2,16 +2,23 @@
 import { Artifact } from "@/components/app/Artifact"
 import { ArtifactSelector } from "@/components/app/ArtifactSelector"
 
-// Hooks
-import { useCharacter } from "@/components/app/CharacterConfig"
+// Data Types
+import type { CharacterConfig } from "@/types/CharacterConfig"
 
 type Props = {
+  characterConfig: CharacterConfig
   isCavern: boolean
+  isEditable: boolean
 }
 
-export function ArtifactGroup({ isCavern }: Props) {
-  const { config } = useCharacter()
-  const artifactList = isCavern ? config.cavernRelics : config.planarOrnaments
+export function ArtifactGroup({
+  characterConfig,
+  isCavern,
+  isEditable,
+}: Props) {
+  const artifactList = isCavern
+    ? characterConfig.cavernRelics
+    : characterConfig.planarOrnaments
 
   return (
     <div className="flex flex-col gap-1">
@@ -19,7 +26,7 @@ export function ArtifactGroup({ isCavern }: Props) {
         <label className="font-bold text-sm">
           {isCavern ? "Cavern Relics" : "Planar Ornaments"}
         </label>
-        <ArtifactSelector isCavern={isCavern} />
+        {isEditable && <ArtifactSelector isCavern={isCavern} />}
       </div>
       {artifactList.length !== 0 ? (
         <div className="flex flex-col gap-3">
