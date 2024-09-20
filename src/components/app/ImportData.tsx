@@ -174,7 +174,15 @@ export function ImportData({ displaySettings }: Props) {
           <Fragment>
             <DialogHeader>
               <DialogTitle>Import Data</DialogTitle>
-              <DialogDescription>???</DialogDescription>
+              <DialogDescription>
+                Upload your saved configuration to integrate your existing
+                builds.
+                <br />
+                <br className="sm:hidden"/>{" "}
+                <span className="text-destructive">
+                  Duplicate character data will be overwritten.
+                </span>
+              </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-5 items-center mt-3">
               <div className="flex gap-3 items-center">
