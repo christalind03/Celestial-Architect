@@ -55,7 +55,7 @@ export function ArtifactFilter({ isCavern }: Props) {
       isLoading={artifactList.isLoading}
       renderButton={
         <Button
-          className="flex items-center justify-between w-72"
+          className="flex items-center justify-between sm:w-44 lg:w-72"
           variant="outline"
         >
           <label>{filterOptions[artifactGroup].length} Selected</label>
