@@ -1,11 +1,13 @@
 # Celestial Architect
 
 ## About
-**Celestial Architect** is a single-page application (SPA) made with **React** and **Vite**, deployed using **Vercel**.
+[**Celestial Architect**](https://celestial-architect.vercel.app/) is a single-page application (SPA) made with **React** and **Vite**, deployed using **Vercel**.
 
 This application helps players of Honkai: Star Rail manage their character builds by providing a straightforward way to select and organize relic sets and light cones. Users can quickly identify the best options for each character, simplifying adjustments as new content is introduced. The user-friendly interface keeps everything organized, ensuring players have the right gear for their characters.
 
 <!-- Demo Video -->
+[![Celestial Architect Demo](https://github.com/user-attachments/assets/a86820d5-563b-414e-b0cf-7ab2e9d8c8b3)](https://www.youtube.com/watch?v=l2gQfSTXXmM)
+
 
 ## Features
 - **Character Management**: Select relics and light cones for each character, streamlining the process of building your characters effectively.
