@@ -3,8 +3,6 @@ import { CharacterArtifacts } from "@/components/app/CharacterArtifacts"
 import { CharacterDetails } from "@/components/app/CharacterDetails"
 import { CharacterNotes } from "@/components/app/CharacterNotes"
 import { CharacterWeapon } from "@/components/app/CharacterWeapon"
-import { Loading } from "@/components/Loading"
-import { RenderError } from "@/components/RenderError"
 import { Separator } from "@/components/ui/Separator"
 import { StarFilledIcon } from "@radix-ui/react-icons"
 
@@ -13,7 +11,6 @@ import type { CharacterConfig } from "@/types/CharacterConfig"
 
 // Hooks
 import { createContext, useContext } from "react"
-import { useQuery } from "@tanstack/react-query"
 
 // Utility Functions
 import { cn } from "@/utils/shadcn"
