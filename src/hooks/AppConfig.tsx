@@ -25,6 +25,8 @@ type ReducerActions =
   | "addCharacter"
   | "addCharacterArtifact"
   | "addCharacterWeapon"
+  | "clearData"
+  | "importCharacters"
   | "removeCharacter"
   | "removeCharacterArtifact"
   | "removeCharacterWeapon"
@@ -49,14 +51,14 @@ function reducerFn(storageKey: string) {
         stateCopy = [
           ...stateCopy,
           {
-              id: payloadData.characterID,
-              isArchived: false,
-              isFavorite: false,
-              cavernRelics: [],
-              planarOrnaments: [],
-              lightCone: null,
-              notes: "",
-              lastEdit: Date.now(),
+            id: payloadData.characterID,
+            isArchived: false,
+            isFavorite: false,
+            cavernRelics: [],
+            planarOrnaments: [],
+            lightCone: null,
+            notes: "",
+            lastEdit: Date.now(),
           },
         ]
 
@@ -82,6 +84,29 @@ function reducerFn(storageKey: string) {
       case "addCharacterWeapon": {
         stateCopy[characterIndex].lightCone = payloadData.weaponID
         break
+      }
+
+      case "clearData": {
+        return saveConfig([], storageKey)
+      }
+
+      case "importCharacters": {
+        const { importedData } = payloadData
+        const importedIDs = importedData.map(
+          (characterConfig: CharacterConfig) => characterConfig.id
+        )
+
+        // Loop through the array in reverse order to prevent index shifting when deleting items.
+        for (let i = stateCopy.length - 1; i >= 0; i--) {
+          const characterID = stateCopy[i].id
+
+          if (importedIDs.includes(characterID)) {
+            stateCopy.splice(i, 1)
+          }
+        }
+
+        stateCopy = [...stateCopy, ...importedData]
+        return saveConfig(stateCopy, storageKey)
       }
 
       case "removeCharacter": {
@@ -166,9 +191,7 @@ export function useAppConfig() {
   const configContext = useContext(AppContext)
 
   if (!configContext)
-    throw new Error(
-      "useAppConfig must be used within a AppConfig.Provider component."
-    )
+    throw new Error("useAppConfig must be used within a AppConfig component.")
 
   return configContext
 }

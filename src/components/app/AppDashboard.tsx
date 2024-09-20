@@ -168,7 +168,7 @@ export function AppDashboard() {
   })
 
   const characterList = useMemo(() => {
-    const sortedCharacters = [...appConfig].sort((configOne, configTwo) => {
+    const sortedCharacters = appConfig.sort((configOne, configTwo) => {
       // Prioritize by the "isFavorite" property.
       if (configOne.isFavorite !== configTwo.isFavorite) {
         return configOne.isFavorite ? -1 : 1
@@ -246,7 +246,7 @@ export function AppDashboard() {
           <AppFilters />
         </FilterContext.Provider>
       )}
-      <div className="gap-5 grid grid-cols-1 mt-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="gap-5 grid grid-cols-1 mt-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredCharacters.length !== 0 ? (
           filteredCharacters.map((config) => {
             const characterIndex = appConfig.findIndex(
